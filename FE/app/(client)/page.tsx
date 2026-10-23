@@ -7,7 +7,7 @@ export default function Home() {
       <section className="bg-slate-800 text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Hành trình thoải mái, kết nối mọi miền</h2>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Hành trình thoải mái, kết nối mọi miền</h1>
           <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
             Đặt vé xe trực tuyến dễ dàng, nhanh chóng và an toàn. Trải nghiệm dịch vụ xe khách chất lượng cao hàng đầu Việt Nam.
           </p>
