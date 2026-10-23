@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "install:fe": "npm --prefix FE ci",
-    "dev": "npm --prefix FE run dev",
-    "build": "npm --prefix FE run build",
-    "start": "npm --prefix FE run start",
-    "lint": "npm --prefix FE run lint"
+    "dev": "npm --prefix FE run dev --",
+    "build": "npm --prefix FE run build --",
+    "start": "npm --prefix FE run start --",
+    "lint": "npm --prefix FE run lint --"
   }
 }
+
