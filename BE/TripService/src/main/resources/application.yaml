@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: TripService
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/booking}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema-postgresql.sql

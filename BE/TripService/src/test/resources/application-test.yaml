@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: ${TEST_DB_URL:jdbc:postgresql://localhost:5432/booking_test}
+    username: ${TEST_DB_USERNAME:postgres}
+    password: ${TEST_DB_PASSWORD:}
+    hikari:
+      schema: tripservice_test
+  jpa:
+    properties:
+      hibernate:
+        default_schema: tripservice_test
+  sql:
+    init:
+      schema-locations:
+        - classpath:db/test-schema.sql
+        - classpath:db/schema-postgresql.sql

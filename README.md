@@ -10,9 +10,10 @@ j2ee-booking/
 │   ├── package.json
 │   └── package-lock.json
 ├── BE/                  # Backend độc lập
-│   ├── src/             # Mã nguồn backend
-│   ├── tests/           # Kiểm thử
-│   └── docs/            # Tài liệu API và thiết kế
+│   └── TripService/     # Spring Boot quản lý xe và chuyến đi
+│       ├── src/main/    # Mã nguồn và cấu hình PostgreSQL
+│       ├── src/test/    # Kiểm thử tích hợp API
+│       └── README.md    # Hướng dẫn chạy và tài liệu API
 └── package.json         # Lệnh tiện ích chạy FE từ thư mục gốc
 ```
 
@@ -34,6 +35,7 @@ Có thể vào `FE/` rồi chạy trực tiếp `npm ci`, `npm run dev`, `npm ru
 
 ## Backend
 
-Xem [BE/README.md](BE/README.md). Hiện chỉ có khung thư mục, chưa khởi tạo
-framework, API hay kết nối cơ sở dữ liệu.
+Xem [BE/TripService/README.md](BE/TripService/README.md). Backend Spring Boot
+quản lý xe và chuyến đi trong cùng một service, cung cấp API CRUD và tìm kiếm,
+sử dụng PostgreSQL. Hướng dẫn cấu hình, API và kiểm thử nằm trong tài liệu backend.
 `FE/app/lib/db.ts` là dữ liệu mẫu của giao diện; thay bằng lời gọi API khi có backend.
