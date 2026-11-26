@@ -1,0 +1,15 @@
+{
+  "editor.inlineSuggest.enabled": false,
+  "editor.tabCompletion": "off",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

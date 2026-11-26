@@ -1,0 +1,8 @@
+{
+  "command": "npm run build",
+  "baselineCommit": "1f2bedb",
+  "localChangesIncluded": true,
+  "distDir": ".next-demo",
+  "database": "isolated owned demo",
+  "exitCode": 0
+}

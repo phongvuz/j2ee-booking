@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-11-06T07:58:03.467Z",
+  "clientDate": "2026-11-06",
+  "clientTimezone": "Asia/Bangkok",
+  "baseCommit": "809f9bcbe63b57725adabe1c9d65a7e9881e9268",
+  "sourceState": "Working tree; source file hashes below identify security implementation tested, not a release tag.",
+  "command": "node --test --test-isolation=none tests/security.test.cjs tests/request-origin.test.cjs tests/admin-business.test.cjs tests/auth-session.test.cjs tests/login.test.cjs tests/register.test.cjs tests/booking-privacy.test.cjs tests/booking-lookup-limit.test.cjs",
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "win32"
+  },
+  "observed": {
+    "exitCode": 0,
+    "tests": 61,
+    "pass": 61,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 5734.8765
+  },
+  "evidenceKind": "Observed runner summary recorded after execution; this JSON is not the raw runner log.",
+  "scope": "DB-free logic, actual React static markup rendering, direct handler/proxy calls with NextResponse and mocked Prisma. No browser exploit test, MySQL execution, TLS check, deployment audit or claim of OWASP certification.",
+  "sourceSha256": {
+    "proxy.ts": "aaa6978cb4e935103d225531e5103b4324790ff2d77ebda63b6d5b8adac738b2",
+    "lib/request-origin.ts": "2f0fc09ba1fdcadf3d59401c77dc9e13c4729925a38a2f59379ef089f5b7f719",
+    "lib/security-headers.ts": "f2c13c07841864ae7e16638cb48dec9ba09b29caabda56bfb8b6ebcaabaddd53",
+    "tests/security.test.cjs": "4c74bd8770e1956f3217bec98b3d9128a0a5df26e455a8b07e6144a777035ef1",
+    "tests/request-origin.test.cjs": "59ba9280a0cabf4adc34beb78c5da53dee1d38efbb762d7cd26e0898ba4c77d5"
+  }
+}

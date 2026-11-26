@@ -1,0 +1,109 @@
+▲ Next.js 16.3.5 (Turbopack)
+- Local:         http://127.0.0.1:11054
+- Network:       http://127.0.0.1:11054
+- Environments: .env
+✓ Ready in 924ms
+✓ Running next.config.ts took 74ms
+Creating turbopack project { dir: 'D:\\sgu-booking', testMode: true }
+[booking-expiry] Đã bật, kiểm tra định kỳ khoảng 15 giây.
+
+ GET /api/bookings 400 in 735ms (next.js: 453ms, proxy.ts: 199ms, application-code: 82ms)
+ POST /api/bookings 400 in 51ms (next.js: 9ms, proxy.ts: 13ms, application-code: 29ms)
+ POST /api/bookings 201 in 161ms (next.js: 7ms, proxy.ts: 7ms, application-code: 146ms)
+ POST /api/bookings 201 in 133ms (next.js: 7ms, proxy.ts: 8ms, application-code: 118ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 164ms (next.js: 26ms, proxy.ts: 13ms, application-code: 126ms)
+ POST /api/bookings 409 in 173ms (next.js: 11ms, proxy.ts: 12ms, application-code: 150ms)
+ POST /api/bookings 409 in 148ms (next.js: 23ms, proxy.ts: 7ms, application-code: 118ms)
+ POST /api/bookings 201 in 181ms (next.js: 19ms, proxy.ts: 32ms, application-code: 130ms)
+ POST /api/bookings 409 in 186ms (next.js: 25ms, proxy.ts: 41ms, application-code: 120ms)
+ POST /api/bookings 409 in 98ms (next.js: 6ms, proxy.ts: 7ms, application-code: 84ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 139ms (next.js: 10ms, proxy.ts: 9ms, application-code: 120ms)
+ POST /api/bookings 409 in 144ms (next.js: 23ms, proxy.ts: 9ms, application-code: 111ms)
+ POST /api/bookings 409 in 99ms (next.js: 7ms, proxy.ts: 6ms, application-code: 86ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 148ms (next.js: 29ms, proxy.ts: 11ms, application-code: 108ms)
+ POST /api/bookings 409 in 157ms (next.js: 13ms, proxy.ts: 12ms, application-code: 132ms)
+ POST /api/bookings 409 in 99ms (next.js: 6ms, proxy.ts: 5ms, application-code: 87ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 136ms (next.js: 21ms, proxy.ts: 9ms, application-code: 105ms)
+ POST /api/bookings 409 in 144ms (next.js: 9ms, proxy.ts: 9ms, application-code: 126ms)
+ POST /api/bookings 409 in 106ms (next.js: 6ms, proxy.ts: 7ms, application-code: 93ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 157ms (next.js: 18ms, proxy.ts: 23ms, application-code: 117ms)
+ POST /api/bookings 409 in 162ms (next.js: 31ms, proxy.ts: 23ms, application-code: 108ms)
+ POST /api/bookings 409 in 106ms (next.js: 6ms, proxy.ts: 6ms, application-code: 95ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 148ms (next.js: 19ms, proxy.ts: 14ms, application-code: 115ms)
+ POST /api/bookings 409 in 151ms (next.js: 28ms, proxy.ts: 17ms, application-code: 106ms)
+ POST /api/bookings 409 in 103ms (next.js: 5ms, proxy.ts: 5ms, application-code: 92ms)
+ POST /api/bookings 201 in 116ms (next.js: 10ms, proxy.ts: 8ms, application-code: 99ms)
+ POST /api/bookings 409 in 123ms (next.js: 22ms, proxy.ts: 10ms, application-code: 92ms)
+ POST /api/bookings 409 in 96ms (next.js: 6ms, proxy.ts: 5ms, application-code: 85ms)
+ POST /api/bookings 201 in 111ms (next.js: 8ms, proxy.ts: 8ms, application-code: 95ms)
+ POST /api/bookings 409 in 130ms (next.js: 21ms, proxy.ts: 8ms, application-code: 101ms)
+ POST /api/bookings 409 in 100ms (next.js: 6ms, proxy.ts: 6ms, application-code: 88ms)
+prisma:error 
+Invalid `tx.trip.updateMany()` invocation in
+D:\sgu-booking\.next-demo\dev\server\chunks\[root-of-the-server]__1lrnde_._.js:1211:40
+
+  1208 ];
+  1209 if (conflicts.length) throw new BookingConflictError(conflicts);
+  1210 // Điều kiện gte giữ số ghế trống không bao giờ âm.
+→ 1211 const reserved = await tx.trip.updateMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+ POST /api/bookings 201 in 169ms (next.js: 23ms, proxy.ts: 23ms, application-code: 122ms)
+ POST /api/bookings 409 in 178ms (next.js: 47ms, proxy.ts: 17ms, application-code: 114ms)
+ POST /api/bookings 409 in 99ms (next.js: 6ms, proxy.ts: 7ms, application-code: 85ms)
+ POST /api/bookings 201 in 174ms (next.js: 41ms, proxy.ts: 11ms, application-code: 122ms)
+ POST /api/bookings 409 in 182ms (next.js: 46ms, proxy.ts: 20ms, application-code: 117ms)
+ POST /api/bookings 409 in 115ms (next.js: 7ms, proxy.ts: 7ms, application-code: 101ms)
