@@ -110,3 +110,72 @@ pwsh -File tests/employee-api-smoke.ps1 -BaseUrl http://127.0.0.1:8080
 Chạy `node tests/postman-jwt-fixture.cjs` từ `BE/employee-service` và giữ tiến trình mở. Đặt `EMPLOYEE_JWT_ISSUER=http://127.0.0.1:8091`, `EMPLOYEE_JWT_JWKS_URI=http://127.0.0.1:8091/jwks.json` và `EMPLOYEE_JWT_AUDIENCE=employee-service` cho Employee Service. Dán JWT thử vào mục **Authorization → Bearer Token** trong Postman. Token hết hạn sau 30 phút.
 
 **Kiểm tra.** Bộ token thử đã chạy đạt toàn bộ `employee-api-smoke.ps1` trên JAR và PostgreSQL tạm.
+
+## Quyết định kiến trúc Dashboard
+
+Dashboard là module chạy trong cùng ứng dụng Spring Boot với Employee Service. Module có package riêng `com.booking.employee.dashboard` để giữ logic tổng hợp tập trung và dùng chung lần triển khai. Số liệu nhân sự lấy từ lớp nghiệp vụ Employees. Doanh thu, vé bán và xe hoạt động lấy qua API của service phụ trách.
+
+| Thao tác | File | Lý do |
+| --- | --- | --- |
+| Sửa | [phan-tich-du-an-dat-ve-xe.md](../../phan-tich-du-an-dat-ve-xe.md) | Đồng bộ phân công, nguồn số liệu và vị trí module theo quyết định chạy chung ứng dụng. |
+| Sửa | [LICH-SU.md](LICH-SU.md) | Ghi quyết định kiến trúc để dùng khi triển khai API `GET /dashboard/stats`. |
+
+## Dashboard bước 1 — API tổng hợp và hợp đồng tích hợp
+
+`GET /dashboard/stats` dùng JWT của `ADMIN`. Có thể gửi `?from=2026-11-26&to=2026-11-27` để thống kê doanh thu và vé bán qua hai ngày, tính cả ngày đầu và ngày cuối theo giờ Việt Nam. Bỏ cả hai để dùng ngày hiện tại. API trả `400` nếu chỉ có một ngày, sai định dạng hoặc đảo thứ tự. Xe và nhân sự được đếm tại lúc yêu cầu.
+
+```json
+{
+  "from": "2026-11-26",
+  "to": "2026-11-27",
+  "revenueVnd": 600000,
+  "ticketsSold": 2,
+  "activeBuses": 3,
+  "employees": { "current": 5, "working": 4, "onLeave": 1, "resigned": 0 }
+}
+```
+
+| Bên cung cấp | Hợp đồng đề xuất để tích hợp |
+| --- | --- |
+| **TV1 — Orders** | Đặt `DASHBOARD_ORDERS_STATS_URL` là URL endpoint, ví dụ `https://orders.example/orders/stats`. Dashboard gửi `GET` với hai timestamp UTC `fromInclusive` và `toExclusive`. Trả JSON `{ "revenueVnd": 600000, "ticketsSold": 2 }`. Doanh thu là tiền thực thu trừ tiền đã hoàn trong kỳ, tính theo thời điểm giao dịch. Vé bán đếm số ghế đã thanh toán trong kỳ, mỗi ghế một lần. Hai chỉ số loại giao dịch demo. Hoàn tiền được phản ánh ở doanh thu. |
+| **TV2 — Buses** | Đặt `DASHBOARD_BUSES_STATS_URL` là URL endpoint, ví dụ `https://buses.example/buses/stats`. `GET` trả `{ "activeBuses": 3 }`. Chỉ số đếm xe có trạng thái `ACTIVE` tại lúc yêu cầu. |
+| **TV3 — Employees** | Đếm số hồ sơ theo trạng thái qua Spring Data JPA. `current` bằng `working + onLeave`. `resigned` là số hồ sơ đã nghỉ việc giữ lại để tra cứu lịch sử. |
+| **TV4 — Auth** | Nhóm cần thống nhất JWT `ADMIN` dùng khi gọi các API nguồn. Dashboard chuyển tiếp Bearer token đến hai URL nguồn cấu hình. Nếu các service kiểm tra `aud` riêng, token cần bao gồm các audience tương ứng. Dùng URL đã xác minh và HTTPS khi nguồn chạy ngoài môi trường local. |
+
+Khi kỳ thống kê rỗng, upstream trả `0` cho các trường tương ứng. Thiếu cấu hình, nguồn không phản hồi hoặc trả dữ liệu sai hợp đồng thì Dashboard trả `503` kèm tên nguồn. CRUD nhân viên vẫn chạy khi các nguồn Dashboard chưa được cấu hình.
+
+| Thao tác | File | Lý do và hệ quả nếu thiếu |
+| --- | --- | --- |
+| Tạo | [DashboardController.java](src/main/java/com/booking/employee/dashboard/DashboardController.java) | Nhận kỳ báo cáo và JWT cho `GET /dashboard/stats`. Thiếu controller thì Spring không có route xử lý. |
+| Tạo | [DashboardService.java](src/main/java/com/booking/employee/dashboard/DashboardService.java) | Kiểm tra kỳ báo cáo, đổi mốc ngày Việt Nam sang UTC và ghép bốn chỉ số. Thiếu lớp này thì controller không biên dịch. |
+| Tạo | [DashboardSources.java](src/main/java/com/booking/employee/dashboard/DashboardSources.java) | Gọi Orders và Buses, kiểm tra dữ liệu, giới hạn thời gian chờ và xử lý lỗi nguồn. Thiếu lớp này thì module không biên dịch. |
+| Sửa | [EmployeeRepository.java](src/main/java/com/booking/employee/repository/EmployeeRepository.java) | Đếm nhóm trạng thái trong một truy vấn tại PostgreSQL. Thiếu truy vấn thì lớp nghiệp vụ không thể lấy thống kê nhân sự. |
+| Sửa | [EmployeeService.java](src/main/java/com/booking/employee/service/EmployeeService.java) | Tính số nhân sự hiện tại và số theo trạng thái. Thiếu phương thức này thì Dashboard không lấy được dữ liệu qua lớp nghiệp vụ Employees. |
+| Sửa | [SecurityConfig.java](src/main/java/com/booking/employee/config/SecurityConfig.java) | Cho `ADMIN` gọi `GET /dashboard/stats`. Nếu bỏ quy tắc, cấu hình từ chối các đường dẫn còn lại sẽ chặn cả `ADMIN`. |
+| Sửa | [application.yml](src/main/resources/application.yml) | Khai báo hai URL nguồn để cấu hình khi TV1 và TV2 sẵn sàng. URL trống khiến Dashboard trả `503`. |
+| Tạo | [dashboard-api-smoke.cjs](tests/dashboard-api-smoke.cjs) | Chạy JAR với nguồn giả lập và gọi cả bộ kiểm thử Employees. Thiếu file thì cần kiểm thử thủ công cách tổng hợp và xử lý lỗi. |
+
+## Dashboard bước 2 — Rà soát phần TV3
+
+| Phần việc | Kết quả rà soát |
+| --- | --- |
+| Employees và phân quyền | Kiểm tra CRUD, dữ liệu không hợp lệ, trùng MSNV và số điện thoại, JWT sai và vai trò bị từ chối. Bổ sung `PATCH /employees/{id}/status` vì nghiệp vụ nghỉ phép đã có ở giao diện. Dùng `{ "status": "ON_LEAVE" }` để nghỉ phép và `WORKING` để quay lại. `DELETE` vẫn dùng cho nghỉ việc, giữ hồ sơ. |
+| Hỗ trợ phân công | Bổ sung `GET /employees/{id}/driver-eligibility` để TV2 kiểm tra bằng JWT `ADMIN`. Kết quả `{ "eligible": true }` yêu cầu hồ sơ đang `WORKING` và có chức vụ `Tài xế` hoặc `Driver`. ID không tồn tại trả `404`. Trip Service sở hữu kiểm tra trùng lịch và cần thống nhất quy tắc xử lý tài xế nghỉ khi còn chuyến. |
+| Dashboard | Backend có API và hợp đồng nguồn. Tích hợp thật phụ thuộc API của TV1, TV2 và JWT chung với TV4. |
+| Giao diện và báo cáo | Hai màn hình trong `FE/` dùng dữ liệu mẫu. Bản `FE/frontend/` dùng API Next.js. Việc chuyển sang Spring Boot cần thống nhất hợp đồng dữ liệu và JWT khi tích hợp giao diện. Lịch sử này ghi phần nghiệp vụ, API và kiểm thử của TV3 để đưa vào báo cáo nhóm. |
+
+| Thao tác | File | Lý do và hệ quả nếu thiếu |
+| --- | --- | --- |
+| Sửa | [EmployeeController.java](src/main/java/com/booking/employee/controller/EmployeeController.java) | Đăng ký hai API hỗ trợ nghỉ phép và kiểm tra tài xế. Thiếu thay đổi này thì các API mới trả `404`. |
+| Sửa | [EmployeeService.java](src/main/java/com/booking/employee/service/EmployeeService.java) và [Employee.java](src/main/java/com/booking/employee/model/Employee.java) | Kiểm tra chức vụ, áp dụng trạng thái nghỉ phép trong giao dịch và ngăn mở lại hồ sơ đã nghỉ việc. Thiếu phần nghiệp vụ thì API mới không biên dịch hoặc không cập nhật đúng trạng thái. |
+| Sửa | [employee-api-smoke.ps1](tests/employee-api-smoke.ps1) | Kiểm tra điều kiện phân công trước và sau khi đổi trạng thái hoặc chức vụ. Thiếu thay đổi này thì bài kiểm thử chưa bao phủ hai API mới. |
+| Sửa | [phan-tich-du-an-dat-ve-xe.md](../../phan-tich-du-an-dat-ve-xe.md) và [LICH-SU.md](LICH-SU.md) | Ghi API bổ sung, hợp đồng các bên và các phần còn phụ thuộc tích hợp. |
+
+**Kiểm tra.** `mvn package` thành công. Bộ kiểm thử HTTP chạy đạt trên PostgreSQL 18.3 tạm với JWT thử và hai nguồn HTTP giả lập. Đã kiểm tra chuyển mốc giờ Việt Nam, kỳ rỗng, dữ liệu nguồn sai, lỗi kết nối và quyền truy cập. CRUD, nghỉ phép và kiểm tra tài xế vẫn chạy khi chưa cấu hình nguồn Dashboard. Ba bộ kiểm thử nghiệp vụ, điều phối và tài chính của `FE/frontend` chạy đạt 30 ca.
+
+Để chạy lại, dùng Java 21, Node.js, PowerShell 7, PostgreSQL tạm đã nạp [script-db.txt](../../script-db.txt) và cấu hình `SPRING_DATASOURCE_*`, `EMPLOYEE_JWT_*`, `EMPLOYEE_TEST_*_TOKEN` như phần token thử ở trên. Chạy từ `BE/employee-service`.
+
+```powershell
+mvn package
+node tests/dashboard-api-smoke.cjs
+```

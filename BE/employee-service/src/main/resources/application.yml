@@ -7,6 +7,10 @@ employee:
     jwks-uri: ${EMPLOYEE_JWT_JWKS_URI}
     audience: ${EMPLOYEE_JWT_AUDIENCE:employee-service}
 
+dashboard:
+  orders-stats-url: ${DASHBOARD_ORDERS_STATS_URL:}
+  buses-stats-url: ${DASHBOARD_BUSES_STATS_URL:}
+
 spring:
   mvc:
     problemdetails:

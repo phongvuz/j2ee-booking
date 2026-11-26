@@ -18,12 +18,12 @@ Nhóm 4 thành viên · Dự án Spring Boot · 2026-10-02
 | --- | --- |
 | 1 — Orders & Booking | Xây dựng Order Service, quản lý đơn vé, xử lý thanh toán, cung cấp dữ liệu cho trang kết quả và tra cứu. |
 | 2 — Trips & Buses | Xây dựng Trip Service và Bus Service, quản lý chuyến, xe, trạng thái và số ghế trống. |
-| 3 — Employees & Dashboard | Xây dựng Employee Service và Dashboard Service, tổng hợp số liệu từ Orders và Trips. |
+| 3 — Employees & Dashboard | Xây dựng Employee Service và module `dashboard` trong cùng ứng dụng Spring Boot. |
 | 4 — Authentication & Client Integration | Xây dựng Auth Service dùng JWT và tích hợp API vào form đặt vé, trang tra cứu và trang kết quả. |
 
 - Orders cần API Trips để tham chiếu chuyến xe.
 - Trang kết quả đặt vé và tra cứu cần API Orders.
-- Dashboard cần số liệu từ Orders và Trips. Đề xuất lấy số liệu qua API của service sở hữu dữ liệu.
+- Module `dashboard` lấy doanh thu và vé bán qua API Orders, số xe hoạt động qua API Trips/Buses và số liệu nhân sự từ lớp nghiệp vụ Employees trong cùng ứng dụng.
 - Giao diện cần API của các nhóm nghiệp vụ để tích hợp các chức năng tương ứng.
 
 ## Sơ đồ dữ liệu
@@ -105,6 +105,8 @@ erDiagram
 | Employees | `GET /employees` | Liệt kê nhân viên |
 | Employees | `POST /employees` | Thêm nhân viên |
 | Employees | `PUT /employees/{id}` | Cập nhật nhân viên |
+| Employees | `PATCH /employees/{id}/status` | Chuyển giữa đang làm việc và nghỉ phép |
+| Employees | `GET /employees/{id}/driver-eligibility` | Kiểm tra nhân viên có đủ điều kiện về hồ sơ và trạng thái để phân công lái xe |
 | Employees | `DELETE /employees/{id}` | Chuyển nhân viên sang trạng thái nghỉ việc |
 | Dashboard | `GET /dashboard/stats` | Lấy thống kê tổng hợp |
 | Auth | `POST /auth/login` | Đăng nhập |
@@ -137,15 +139,15 @@ pom.xml
 | Email | Spring Boot Starter Mail gửi email qua SMTP. |
 | Đóng gói và chạy cục bộ | Docker đóng gói từng ứng dụng Spring Boot. PostgreSQL dùng image riêng. Docker Compose khởi chạy các service và PostgreSQL. |
 
-### Công nghệ cho các service
+### Công nghệ cho các service và module
 
-| Service | Thành viên | Công nghệ và trách nhiệm |
+| Thành phần | Thành viên | Công nghệ và trách nhiệm |
 | --- | --- | --- |
 | Order Service | 1 | Spring Web cho API `/orders`. Spring Data JPA và PostgreSQL lưu đơn vé và trạng thái thanh toán. Tích hợp VNPay Sandbox và dùng `JavaMailSender` gửi xác nhận vé sau khi thanh toán thành công. |
 | Trip Service | 2 | Spring Web cho API `/trips`. Spring Data JPA và PostgreSQL lưu chuyến, thông tin ghế và phân công. Đề xuất lưu `driverId` và gọi Employee Service để kiểm tra tài xế còn làm việc trước khi phân công. |
 | Bus Service | 2 | Spring Web cho API `/buses`. Spring Data JPA và PostgreSQL lưu thông tin xe, sức chứa và trạng thái hoạt động. Cung cấp dữ liệu xe cho Trip Service. |
 | Employee Service | 3 | Spring Web cho API `/employees`. Spring Data JPA và PostgreSQL lưu hồ sơ, vai trò nghiệp vụ và trạng thái làm việc. Khi nhân viên nghỉ việc, cập nhật trạng thái để giữ lịch sử phân công. |
-| Dashboard Service | 3 | Spring Web cho API `/dashboard/stats`. Tổng hợp doanh thu, vé bán, xe hoạt động và nhân sự từ API của các service sở hữu dữ liệu. |
+| Module `dashboard` | 3 | Spring Web cho API `GET /dashboard/stats`. Chạy trong `BE/employee-service`, dùng chung lần triển khai với Employee Service. Logic tổng hợp đặt trong package `com.booking.employee.dashboard`. |
 | Auth Service | 4 | Spring Security OAuth2 Client cho đăng nhập Google. Spring Data JPA và PostgreSQL lưu tài khoản và quyền. Cấp JWT để các service nghiệp vụ xác thực và kiểm tra quyền tại API. |
 
 Thành viên 2 và 3 thống nhất cách xử lý khi tài xế xin nghỉ nhưng còn chuyến sắp chạy.

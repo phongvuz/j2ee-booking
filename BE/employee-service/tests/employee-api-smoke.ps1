@@ -34,6 +34,8 @@ $protectedEndpoints = @(
     @{ Method = 'POST'; Url = $employeesUrl }
     @{ Method = 'PUT'; Url = [uri]::new($BaseUrl, '/employees/1') }
     @{ Method = 'DELETE'; Url = [uri]::new($BaseUrl, '/employees/1') }
+    @{ Method = 'PATCH'; Url = [uri]::new($BaseUrl, '/employees/1/status') }
+    @{ Method = 'GET'; Url = [uri]::new($BaseUrl, '/employees/1/driver-eligibility') }
 )
 foreach ($endpoint in $protectedEndpoints) {
     Invoke-EmployeeApi @endpoint -ExpectedStatus 401 -Token '' | Out-Null
@@ -79,20 +81,39 @@ $duplicate.msnv = "ALT$suffix"
 Invoke-EmployeeApi POST $employeesUrl 409 $duplicate | Out-Null
 
 $employeeUrl = [uri]::new($BaseUrl, "/employees/$($created.id)")
+$statusUrl = [uri]::new($BaseUrl, "/employees/$($created.id)/status")
+$eligibilityUrl = [uri]::new($BaseUrl, "/employees/$($created.id)/driver-eligibility")
+if (!(Invoke-EmployeeApi GET $eligibilityUrl 200).eligible) { throw 'Working driver must be eligible.' }
+Invoke-EmployeeApi PATCH $statusUrl 400 @{ status = 'RESIGNED' } | Out-Null
+Invoke-EmployeeApi PATCH $statusUrl 400 @{ status = 0 } | Out-Null
+$onLeave = Invoke-EmployeeApi PATCH $statusUrl 200 @{ status = 'ON_LEAVE' }
+if ($onLeave.status -ne 'ON_LEAVE' -or (Invoke-EmployeeApi GET $eligibilityUrl 200).eligible) {
+    throw 'Driver on leave must be ineligible.'
+}
+Invoke-EmployeeApi PATCH $statusUrl 200 @{ status = 'WORKING' } | Out-Null
+if (!(Invoke-EmployeeApi GET $eligibilityUrl 200).eligible) { throw 'Returning driver must be eligible.' }
+
 $employee.msnv = "NVU$suffix"
 $employee.name = 'Updated Smoke Test'
+$employee.role = 'Office'
 $updated = Invoke-EmployeeApi PUT $employeeUrl 200 $employee
 if ($updated.name -ne $employee.name -or $updated.status -ne 'WORKING') { throw 'Profile update failed.' }
 if ($updated.msnv -ne $employee.msnv) { throw 'Update response must return the new msnv.' }
+if ((Invoke-EmployeeApi GET $eligibilityUrl 200).eligible) { throw 'Non-driver must be ineligible.' }
 
 $missingUrl = [uri]::new($BaseUrl, "/employees/$([long]::MaxValue)")
 Invoke-EmployeeApi PUT $missingUrl 404 $employee | Out-Null
 Invoke-EmployeeApi DELETE $missingUrl 404 | Out-Null
+Invoke-EmployeeApi GET ([uri]::new($BaseUrl, "$missingUrl/driver-eligibility")) 404 | Out-Null
+Invoke-EmployeeApi PATCH ([uri]::new($BaseUrl, "$missingUrl/status")) 404 @{ status = 'WORKING' } | Out-Null
 Invoke-EmployeeApi DELETE $employeeUrl 204
 Invoke-EmployeeApi DELETE $employeeUrl 204
 
+$employee.role = 'Driver'
 $updated = Invoke-EmployeeApi PUT $employeeUrl 200 $employee
 if ($updated.status -ne 'RESIGNED') { throw 'Editing a resigned employee changed their status.' }
+if ((Invoke-EmployeeApi GET $eligibilityUrl 200).eligible) { throw 'Resigned driver must be ineligible.' }
+Invoke-EmployeeApi PATCH $statusUrl 409 @{ status = 'WORKING' } | Out-Null
 $employees = Invoke-EmployeeApi GET $employeesUrl 200
 $saved = $employees | Where-Object id -EQ $created.id
 if ($saved.status -ne 'RESIGNED' -or $saved.name -ne $employee.name) { throw 'Resigned employee was not retained.' }

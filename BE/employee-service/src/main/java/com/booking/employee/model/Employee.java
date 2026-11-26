@@ -51,6 +51,10 @@ public class Employee {
         status = EmployeeStatus.RESIGNED;
     }
 
+    public void updateWorkStatus(EmployeeStatus status) {
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }
