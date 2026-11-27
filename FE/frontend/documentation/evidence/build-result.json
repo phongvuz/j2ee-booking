@@ -1,0 +1,6 @@
+{
+  "command": "npm run build",
+  "distDir": ".next-demo",
+  "database": "isolated demo",
+  "exitCode": 0
+}

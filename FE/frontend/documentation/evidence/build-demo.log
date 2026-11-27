@@ -1,0 +1,81 @@
+
+> nha-xe-sai-gon@0.1.0 build
+> npm run api:docs:check && next build
+
+
+> nha-xe-sai-gon@0.1.0 api:docs:check
+> node scripts/generate-api-docs.cjs --check
+
+API documentation is up to date.
+▲ Next.js 16.3.5 (Turbopack)
+- Environments: .env
+✓ Running next.config.ts took 64ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 12.2s
+  Running TypeScript ...
+  Finished TypeScript in 12.4s ...
+  Collecting page data using 19 workers ...
+  Generating static pages using 19 workers (0/29) ...
+  Generating static pages using 19 workers (7/29) 
+  Generating static pages using 19 workers (14/29) 
+  Generating static pages using 19 workers (21/29) 
+✓ Generating static pages using 19 workers (29/29) in 793ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/buses
+├ ƒ /admin/employees
+├ ƒ /admin/login
+├ ƒ /admin/orders
+├ ƒ /admin/payments
+├ ƒ /admin/trips
+├ ƒ /admin/users
+├ ƒ /api-docs
+├ ƒ /api/admin/orders
+├ ƒ /api/admin/orders/[id]
+├ ƒ /api/admin/stats
+├ ƒ /api/auth/login
+├ ƒ /api/auth/logout
+├ ƒ /api/auth/register
+├ ƒ /api/auth/session
+├ ƒ /api/bookings
+├ ƒ /api/buses
+├ ƒ /api/buses/[id]
+├ ƒ /api/buses/[id]/status
+├ ƒ /api/customer/profile
+├ ƒ /api/employees
+├ ƒ /api/employees/[id]
+├ ƒ /api/employees/[id]/status
+├ ƒ /api/openapi
+├ ƒ /api/payments/demo/confirm
+├ ƒ /api/payments/status
+├ ƒ /api/seats/hold
+├ ƒ /api/trips
+├ ƒ /api/trips/[id]
+├ ƒ /api/trips/[id]/holds
+├ ƒ /api/trips/[id]/seat-events
+├ ƒ /api/trips/[id]/stream
+├ ƒ /api/trips/locations
+├ ƒ /api/users
+├ ƒ /api/users/[id]
+├ ƒ /api/users/[id]/role
+├ ƒ /bookings
+├ ƒ /login
+├ ƒ /lookup
+├ ƒ /profile
+├ ƒ /register
+├ ƒ /success
+├ ƒ /trips
+└ ƒ /trips/[id]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+

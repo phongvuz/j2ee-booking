@@ -1,0 +1,21 @@
+server:
+  address: 127.0.0.1
+
+employee:
+  jwt:
+    issuer: ${EMPLOYEE_JWT_ISSUER}
+    jwks-uri: ${EMPLOYEE_JWT_JWKS_URI}
+    audience: ${EMPLOYEE_JWT_AUDIENCE:employee-service}
+
+dashboard:
+  orders-stats-url: ${DASHBOARD_ORDERS_STATS_URL:}
+  buses-stats-url: ${DASHBOARD_BUSES_STATS_URL:}
+
+spring:
+  mvc:
+    problemdetails:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false

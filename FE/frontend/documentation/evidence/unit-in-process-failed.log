@@ -1,0 +1,272 @@
+✔ management guard requires an authenticated administrator for reads and writes (108.3585ms)
+✔ management guard rejects mutations from another origin and malformed JSON (20.8673ms)
+✔ admin pages send visitors and customers to the separate admin login page (22.6152ms)
+✔ validates integer capacity, distinct locations, real dates and employee identity (44.3006ms)
+✔ seat map has exactly database capacity and treats legacy aliases as one seat (12.5752ms)
+✔ serializable transactions retry conflicts only and stop after three attempts (8.4537ms)
+✔ locked accounts cannot use an existing signed session (19.1817ms)
+✔ Vietnam date-time input round trips without a seven-hour shift (5.3797ms)
+✔ admin can read, change status and cancel tickets through the completed endpoints (23.8096ms)
+✔ order endpoints reject unauthenticated, customer and cross-origin mutations before accessing orders (60.9698ms)
+✔ invalid order IDs, JSON and statuses never reach the service (21.8031ms)
+✔ missing orders return 404 and business conflicts remain 409 (37.7622ms)
+✔ cancel and restore return seats once, preserve history and notify viewers after commit (49.5536ms)
+✔ queryTripsAdmin supports both directions for every sortable field with pagination and filters (56.4505ms)
+✔ queryBuses supports both directions for every sortable field with pagination and filters (18.1445ms)
+✔ queryEmployees supports both directions for every sortable field with pagination and filters (26.2033ms)
+✔ queryOrdersAdmin supports both directions for every sortable field with pagination and filters (51.509ms)
+✔ queryUsers supports both directions for every sortable field with pagination and filters (33.1908ms)
+✔ new trips appear first by creation date, departure sorting is selectable, and tied rows have stable pages (47.2329ms)
+✔ payment sorting preserves review filters and sorting in pagination links (124.2953ms)
+✔ query keeps zero and escapes search text while omitting empty filters (0.3755ms)
+✔ requests preserve headers and cancellation while returning successful data (1.4834ms)
+✔ HTTP and application failures retain useful messages and validation errors (0.8097ms)
+✔ non-JSON and network failures reject instead of becoming empty successful results (0.5427ms)
+✔ an aborted request preserves AbortError for callers to ignore cancelled responses (0.3122ms)
+✔ API reference covers every real exported handler and rejects undocumented or stale metadata (44.6453ms)
+✔ route discovery uses AST and ignores commented-out handlers (7.1563ms)
+✔ booking examples validate with actual Zod schemas and require the seats array (77.6238ms)
+✔ OpenAPI preserves role protection, optional admin mode, SSE framing and unresolved response data (109.0161ms)
+✔ generated artifacts are deterministic and checked-in versions match current source (219.6333ms)
+✔ check mode rejects missing or changed artifacts and accepts normalized line endings (4.7012ms)
+✔ documentation UI escapes API metadata and search input without executable HTML (20.4997ms)
+✔ opening, switching and closing auth keeps trip search filters (0.3653ms)
+✔ login return destinations are local and cannot reopen authentication (0.4465ms)
+✔ new logins have distinct tokens and session responses never expose the password hash (6.8832ms)
+✔ invalid tokens and legacy cookies are rejected before reading the database (23.1847ms)
+✔ cross-site login, registration and logout are rejected before any changes (48.5582ms)
+✔ session endpoint returns only public account fields and rejects ineligible customers (19.1522ms)
+✔ registration checks session configuration before committing an account (85.993ms)
+✔ admin stats API returns HTTP auth errors rather than a page redirect (16.0618ms)
+✔ the upgrade projection matches baseline booking and hold columns without removing hold expiry (1.6811ms)
+✔ booking expiry removal preserves expiry fields and composite indexes on other models (0.3647ms)
+✔ lookup limits each phone across sources and resets at the fixed window boundary (0.6967ms)
+✔ source limit applies across target phones without affecting other sources (0.3332ms)
+✔ bounded storage rejects new identities while preserving existing limits, then prunes expired entries (1.4504ms)
+✔ source selection supports proxy headers and a stable fallback (0.4304ms)
+✔ API throttles valid lookup attempts before querying bookings and ignores invalid requests (89.6597ms)
+✔ lookup rejects phone-only and PNR-only requests without querying bookings (86.4666ms)
+✔ lookup requires the exact PNR and passenger phone pair and returns only that group (103.0891ms)
+✔ public API rejects the old phone enumeration interface and does not cache results or errors (112.8894ms)
+✔ unauthenticated visitors are redirected before querying bookings (36.8984ms)
+✔ history uses the session user ID and renders only their tickets (16.1327ms)
+✔ customers with no bookings see an empty state and trip link (12.7273ms)
+✔ demo names reject existing application names, SQL fragments, paths and oversized identifiers before connection (1.0254ms)
+✔ configuration derives a loopback control URL and distinct target without changing source env (0.9566ms)
+✔ demo snapshot restricts updates only on the CHECK-dependent relation, preserving source schema (0.8289ms)
+✔ matching generated schema and full DMMF skip generation, including Windows line endings (1.3018ms)
+✔ missing and stale generated schemas trigger regeneration before the client is loaded (0.7852ms)
+✔ matching schema file alone cannot hide missing constructor, stale fields/types or broken client (1.029ms)
+✔ seed includes usable ADMIN and CUSTOMER hashes, matching customer profile, future trips and capacity (201.7426ms)
+✔ existing database without an owned schema marker is never changed or pushed (3.9177ms)
+✔ owned existing demo with matching schema is reused without any writes or seed (1.5451ms)
+The newly created demo database was kept for diagnosis. No database was reset or deleted.
+✔ provisioning failure preserves the new database and cannot issue destructive SQL (3.7092ms)
+✔ mutation boundary refuses a caller that bypasses CLI name or target URL validation (1.2351ms)
+✔ guest identifiers never reserve a real passenger phone and differ between bookings (0.4518ms)
+✔ admin account responses hide guest identifiers but allow searching passenger phones (49.8926ms)
+✔ guest identities cannot become login accounts or take a passenger phone through admin updates (171.4363ms)
+✔ admin guest rows identify guest history and disable account edits and role changes (49.2547ms)
+✔ home displays database search options and each available route with its own price and link (165.6619ms)
+✔ home explains an empty sale list without inventing route prices (103.0532ms)
+✔ password verification rejects incorrect passwords and malformed/legacy hashes (201.2508ms)
+✔ session signatures reject tampering, expiry and invalid identifiers (0.6973ms)
+✔ login by phone and normalized email creates an HttpOnly session without exposing credentials (213.9811ms)
+✔ rejects wrong role, inactive or missing customer/user and wrong password without setting a cookie (872.6974ms)
+✔ rejects malformed input and hides database failures (156.2197ms)
+✔ logout expires the session cookie (6.1716ms)
+✔ admin logs in without a customer and upgrades legacy password for subsequent logins (628.3997ms)
+✔ admin and customer forms reject accounts for the other audience without setting cookies (580.2111ms)
+✔ admin session rechecks role and rejects missing, expired or tampered cookies (49.2566ms)
+✔ session use rechecks current role and customer status (25.202ms)
+✔ trip input rejects fractional VND before a ticket can be reserved (11.3821ms)
+✔ server price guard rejects legacy fractional amounts without rounding (6.2046ms)
+✔ QR preserves leading account zero and embeds database total and order code (16.4081ms)
+✔ demo confirmation records payment, confirms all seats once and retains timestamp (16.1348ms)
+✔ cancelled, departed, counter-confirmed and review orders cannot create a demo payment (79.8105ms)
+✔ backend rejects confirmation when demo is off even if frontend button is bypassed (17.0055ms)
+✔ API rejects injected amount, cross-site confirmation and malformed JSON (61.0995ms)
+✔ profile updates only the signed-in customer's records and normalizes fields (94.093ms)
+✔ rejects unauthenticated, cross-origin and invalid updates without writes (157.0053ms)
+✖ duplicate contact information returns a useful conflict response (78.858ms)
+✔ password change requires current password and matching valid new password (410.7587ms)
+✔ public filter URLs preserve all selections across pages and accept repeated query keys (1.1082ms)
+✔ public queries exclude departed and sold out trips with bounded stable pages (53.4022ms)
+✔ Vietnam hour filters are bound in SQL before counting and pagination (70.8701ms)
+✔ vehicle labels use fixed capacity and page links keep active filters (46.6198ms)
+✔ public trip API paginates without admin access while explicit admin mode stays protected (37.3188ms)
+✔ validates required fields, lengths, confirmation and terms (1.1759ms)
+✔ creates both records with normalized fields and server-controlled role (163.1653ms)
+✔ rejects malformed JSON and invalid input before writing (29.7698ms)
+✔ rejects an existing account before writing (25.9451ms)
+✔ rejects an existing customer email or phone before writing (27.767ms)
+✔ a former guest can register without inheriting existing guest bookings (94.6502ms)
+✔ registration never detaches active accounts, locked guests or a matching customer profile (123.8642ms)
+✔ registration rechecks eligibility inside the transaction before detaching a guest (377.9802ms)
+✔ accepts registration without an optional address (91.2696ms)
+✔ uses a fresh salt for every password hash (127.7313ms)
+✖ handles database uniqueness races without reporting success (93.5212ms)
+✔ does not expose database errors or report success when a write fails (90.6488ms)
+✔ allocates CUS-004 after numeric maximum 3 (93.4888ms)
+✔ allocates CUS-010 after numeric maximum 9 (89.0705ms)
+✔ allocates CUS-1000 after numeric maximum 999 (90.2911ms)
+✖ retries serialization conflicts before creating customer (92.7614ms)
+✔ stops after bounded serialization retries (96.0564ms)
+✔ same-origin checks use the real HTTP host when Next builds an internal localhost URL (0.9207ms)
+✔ origin checks reject other hosts, ports, protocols and forged forwarded hosts (0.7417ms)
+✔ nonbrowser clients without origin retain access while ordinary request URLs remain checked (0.4399ms)
+✔ sibling sites and cross-site browser requests cannot bypass origin checks by omitting Origin (0.4675ms)
+✔ opaque, multiple and malformed origins are denied rather than normalized into a trusted origin (0.4419ms)
+✔ realtime input rejects malformed events, extra personal fields and duplicate seats (2.178ms)
+✔ broadcast isolates trips and prevents selecting or releasing another client's seat (8.159ms)
+✔ viewer count is unique per client, includes initial snapshot and stays within its trip (1.2116ms)
+✔ disconnect releases interaction only after the last connection and sync replaces stale seats (1.7091ms)
+✔ failed writes clean their connection and server limits each client to five seats (2.1044ms)
+✖ HTTP rejects mismatched trips, unknown seats, booked seats and missing connections (55.1179ms)
+✔ stream sends an immediate snapshot and cancel/abort clear heartbeat exactly once (50.265ms)
+✔ seat session rejects forged and expired cookies and isolates identical public tab IDs (0.5613ms)
+✔ knowing a public client ID cannot take over its stream or deselect its seats (1.0666ms)
+✔ HTTP rejects a second browser claiming the victim's public ID (47.4964ms)
+✖ hold mutations derive private ownership and public snapshots never expose it (33.3948ms)
+✔ reconnect removes sold, foreign-held and removed seats, and cancellation frees the map (6.5013ms)
+✔ hook reconnects after an offline seat sale and refreshes cancellations without reloading (78.8637ms)
+✔ API proxy denies hostile-origin preflights and every mutation method without granting CORS (12.4802ms)
+✔ API proxy preserves same-origin operations, public/SSE reads and intentional nonbrowser clients (2.5343ms)
+✔ baseline security headers restrict framing and active embeds without pretending to enforce script nonces (3.4215ms)
+✔ customer greeting renders stored script markup as text (9.3865ms)
+✔ ticket details escape hostile passenger and route data in their real UI component (39.9445ms)
+✔ search injection payload remains Prisma filter data and cannot choose an arbitrary sort field (38.8958ms)
+✔ unexpected internal errors produce a generic JSON response without exposing error details (11.3225ms)
+✔ trip repair persists schema, rows and the old code mapping before DDL and reruns without changes (10.0183ms)
+✔ a compatible numeric trip table is a no-op without creating backup files (1.7797ms)
+✔ trip repair stops on incomplete schema, incompatible IDs and unexpected code types (2.1289ms)
+✔ foreign-key dependencies, composite or primary code indexes and triggers stop repair before backup (2.0539ms)
+✔ trip repair never executes DDL when the backup cannot be persisted (4.0385ms)
+✔ employee statistics count the filtered set rather than the current page (27.0092ms)
+✔ dashboard uses aggregates and displays only alerts supported by data (17.8251ms)
+✔ featured routes exclude departed and full trips and use database prices (50.3887ms)
+✔ trip IDs require numeric positive database integers; URLs parse decimal digits (6.5692ms)
+✔ online and offline bookings reject string IDs and trip forms have no code field (29.4287ms)
+✔ trip detail, update and delete APIs pass numeric IDs and reject codes (26.9936ms)
+✔ booking API rejects legacy codes before creating bookings (40.7841ms)
+✖ seat hold API broadcasts numeric IDs and rejects string IDs (34.1023ms)
+✔ seat hold URLs validate before querying and streams use the canonical numeric ID (66.3333ms)
+✔ order trip filter is parsed at the API boundary and rejects invalid IDs (29.5263ms)
+✔ location options combine defaults and exact legacy labels without canonicalizing (0.6505ms)
+✔ admin locations API reads all routes and rejects unauthorized access before querying (8.7466ms)
+✔ create and edit forms use native selects and retain legacy routes absent from fetched options (34.8567ms)
+✔ search options use database locations and Vietnamese departure dates (57.3083ms)
+✔ search applies both cities and the full Vietnam day regardless of server timezone (53.1901ms)
+✔ departure day parsing rejects invalid dates and supports leap years (0.3642ms)
+ℹ tests 159
+ℹ suites 0
+ℹ pass 153
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10467.8723
+
+✖ failing tests:
+
+test at tests\profile.test.cjs:61:1
+✖ duplicate contact information returns a useful conflict response (78.858ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  500 !== 409
+  
+      at TestContext.<anonymous> (D:\sgu-booking\tests\profile.test.cjs:63:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 409,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\register.test.cjs:161:1
+✖ handles database uniqueness races without reporting success (93.5212ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  500 !== 409
+  
+      at TestContext.<anonymous> (D:\sgu-booking\tests\register.test.cjs:163:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 409,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\register.test.cjs:180:1
+✖ retries serialization conflicts before creating customer (92.7614ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  500 !== 201
+  
+      at TestContext.<anonymous> (D:\sgu-booking\tests\register.test.cjs:182:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\seat-realtime.test.cjs:193:1
+✖ HTTP rejects mismatched trips, unknown seats, booked seats and missing connections (55.1179ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 200
+  
+      at TestContext.<anonymous> (D:\sgu-booking\tests\seat-realtime.test.cjs:215:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\seat-realtime.test.cjs:300:1
+✖ hold mutations derive private ownership and public snapshots never expose it (33.3948ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 200
+  
+      at TestContext.<anonymous> (D:\sgu-booking\tests\seat-realtime.test.cjs:312:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\trip-id.test.cjs:79:1
+✖ seat hold API broadcasts numeric IDs and rejects string IDs (34.1023ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 200
+  
+      at TestContext.<anonymous> (D:\sgu-booking\tests\trip-id.test.cjs:88:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

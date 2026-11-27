@@ -1,0 +1,122 @@
+{
+  "recordedAt": "2026-11-06T09:31:45.341011+00:00",
+  "timeZone": "Asia/Bangkok",
+  "node": "v24.22.1",
+  "baselineCommit": "1f2bedb",
+  "workingTreeModified": true,
+  "scope": "Pre-push verification after fast-forwarding origin/huy; unit/static/build/API regeneration are current. Database and HTTP receipts remain the earlier 809f9bc snapshot.",
+  "checks": {
+    "unit": {
+      "command": "npm test",
+      "isolation": "process per test file",
+      "exitCode": 0,
+      "total": 162,
+      "passed": 162,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 6304.39,
+      "log": "documentation/evidence/pre-push-unit.log",
+      "baselineCommit": "1f2bedb"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "log": "documentation/evidence/pre-push-typecheck.log",
+      "baselineCommit": "1f2bedb"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "log": "documentation/evidence/pre-push-lint.log",
+      "baselineCommit": "1f2bedb"
+    },
+    "build": {
+      "command": "npm run build (SGU_DEMO=true, isolated demo environment)",
+      "distDir": ".next-demo",
+      "database": "isolated demo",
+      "exitCode": 0,
+      "log": "documentation/evidence/pre-push-build.log",
+      "baselineCommit": "1f2bedb"
+    },
+    "apiDocs": {
+      "passed": true,
+      "checkCommand": "npm run api:docs:check",
+      "exitCode": 0,
+      "pathCount": 28,
+      "operationCount": 45,
+      "jsonHttpStatus": 200,
+      "htmlHttpStatus": 200,
+      "regeneratedForBaseline": "1f2bedb",
+      "historicalHttpReceiptBaseline": "809f9bc"
+    },
+    "demo": {
+      "passed": true,
+      "databaseEngine": "MySQL 8.0.46",
+      "freshSetupVerified": true,
+      "reusePreservesData": true,
+      "constraintsAndForeignKeysVerified": true,
+      "unownedDatabaseRefused": true,
+      "httpChecksPassed": 5,
+      "dockerTested": false,
+      "emptyDependencyBootstrapTested": false,
+      "baselineCommit": "809f9bc",
+      "revalidatedAfterRemoteIntegration": false
+    },
+    "securityHttp": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "baselineCommit": "809f9bc",
+      "revalidatedAfterRemoteIntegration": false
+    }
+  },
+  "applicationDatabaseModified": false,
+  "environmentFileModified": false,
+  "evidenceFiles": {
+    "demoSetup": "documentation/reproducibility-evidence.json",
+    "demoHttp": "documentation/evidence/demo-http.json",
+    "security": "documentation/security/evidence/http-check-2026-11-06.json",
+    "api": "documentation/evidence/api-http.json"
+  },
+  "preservedFailedAttempt": "documentation/evidence/unit-in-process-failed.log (historical 809f9bc shared-process run: 153/159; current process-isolated run: 162/162)",
+  "sourceAndLogSha256": {
+    "package.json": "4c9ff65e5c7f040b1f83aee8d08895e1a9d2e9b1637354510c507bb95c7be078",
+    "next.config.ts": "6d5b81021decfccb9e49dc230dab7f895e339911b757c56e8d1e8ebe2911f2c5",
+    "eslint.config.mjs": "a1e2829bc8cbec642250fbe1ca0aa7098feeba47443c67651e35e94695f2cb45",
+    "tsconfig.json": "1ddf059454756664c4758699ee759ca4772764123a076269262bb39c808386e8",
+    "README.md": "9f4b51017884176b26d358a7dd8f36bb39094c371cbd9b85ed1d38667b162cff",
+    "proxy.ts": "aaa6978cb4e935103d225531e5103b4324790ff2d77ebda63b6d5b8adac738b2",
+    "lib/request-origin.ts": "2f0fc09ba1fdcadf3d59401c77dc9e13c4729925a38a2f59379ef089f5b7f719",
+    "lib/security-headers.ts": "f2c13c07841864ae7e16638cb48dec9ba09b29caabda56bfb8b6ebcaabaddd53",
+    "scripts/demo.cjs": "84db306ce293fc78ebdc537caaf122f62b4d29dc49fdb9d1b6e1412bbaa052c9",
+    "scripts/generate-api-docs.cjs": "04425dab788e9564da954c2f050cdd70c3bdbc6855073d861439586d4e9a697d",
+    "scripts/api-docs-metadata.cjs": "a12ce423b76b2c19ea796eb97a3484f6fd0004fe0d87c197f044c6a929ac2889",
+    "scripts/check-security-http.cjs": "13a899deca2af45f4e928054b9c1da723aebfcdc51ea58168075d7560b821bac",
+    "tests/demo.test.cjs": "0d98c1e191f70f88f929df3792fad3df97f338564497147d754f8357209997a7",
+    "tests/demo-db.cjs": "9d7e22c1b3d2dd63d491881baa951391de0ea23dd97d9cfdd5c12292cb178725",
+    "tests/security.test.cjs": "4c74bd8770e1956f3217bec98b3d9128a0a5df26e455a8b07e6144a777035ef1",
+    "tests/request-origin.test.cjs": "59ba9280a0cabf4adc34beb78c5da53dee1d38efbb762d7cd26e0898ba4c77d5",
+    "tests/api-documentation.test.cjs": "86be204ff35b45c83977316b014e513d7146f32e8038fac5478543ec92bcbdf2",
+    "documentation/reproducibility.md": "8d21a62d7a003768bd7fb6407107cfa27abc4de57cb3a65aaf73fb46536eeb71",
+    "documentation/security/README.md": "946e82137c5094f3e00f337fa43a62a5e3a5809f8151d365f237ac5ae98b47d4",
+    "documentation/api/openapi.json": "82ca1ddf8f83023c4e719a349071d6f275abb95925f4f9e26527d2d5795b3dac",
+    "documentation/api/README.md": "bf30bc7296f95ff13807ac0f0d965d34bffde19327f8d51b2d59d6b4eee4b1cf",
+    "documentation/evidence/unit-current.log": "a3cf02b4372f2b2d9c09067e18c4ff29f579add845bdabefd6b176b6ba96a77b",
+    "documentation/evidence/typecheck.log": "d19f72d48d072f97378347564fca89d204b9ab63a44ec8de88c35d2611bcb9a2",
+    "documentation/evidence/lint.log": "bcce2d926b003b980f7767ddae9bbace0ef21b3492a3fe6b6f72947ded8fb666",
+    "documentation/evidence/build-demo.log": "0250dbfa5b279be428be4c94ed9642f7891d3cab3f883c7b39d9e3aa79bbc184",
+    "documentation/evidence/pre-push-unit.log": "14b3e6ae8fadf9ea059ff0c5a9d80bbf8108100771d0f6cec494049070154ede",
+    "documentation/evidence/pre-push-typecheck.log": "f86bbdc69249941ee9aece7c0ec048c6406718a7fdb7615e1906a6d04d1960b7",
+    "documentation/evidence/pre-push-lint.log": "95273eb8eae7b030f60ffb86e23cf5022db4b55a4bf5650612457b5a5faa72eb",
+    "documentation/evidence/pre-push-build.log": "e83651c62a09fd698de938f8ee36c899f4896a357bf5b7d0a2cf428aef5acaca",
+    "documentation/evidence/pre-push-build-result.json": "980582f070bddfcc3c65baccb56a30a8cc6875e56e556c7e11d6467e830d094e",
+    "documentation/evidence/verification-before-sync.json": "6e25f0eb52fd8374974fead7e6dc8a151509f675a47890eddfa591d119de38c8",
+    "app/api/admin/orders/[id]/route.ts": "bc6aef6ad217a393389930efd61fcdf5318f69ea82296420b839bd68bbec9e94",
+    "app/admin/trips/page.tsx": "0d1b56ce946f38b242aa0bed13d0c86a4af034129a6082784f021317685535ac",
+    "tests/remote-data.test.cjs": "1c18f4ea6450044bed80f96ce3aa647e76aaa7d66e89ad5f50266bf9644af873"
+  },
+  "previousSnapshot": {
+    "path": "documentation/evidence/verification-before-sync.json",
+    "baselineCommit": "809f9bc"
+  }
+}

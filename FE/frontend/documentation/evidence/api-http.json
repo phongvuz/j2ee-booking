@@ -1,0 +1,11 @@
+{
+  "recordedAt": "2026-11-06T08:04:51.976Z",
+  "baseOrigin": "http://127.0.0.1:3001",
+  "jsonStatus": 200,
+  "openapi": "3.1.1",
+  "pathCount": 28,
+  "operationCount": 45,
+  "htmlStatus": 200,
+  "htmlHasDocs": true,
+  "passed": true
+}

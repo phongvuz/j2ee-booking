@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model booking {
+  id             Int       @id @default(autoincrement())
+  pnr            String?
+  passengerName  String?
+  passengerPhone String?
+  activeSeat     String?   @unique
+  seatNumber     String
+  status         String    @default("CONFIRMED")
+  totalPrice     Int
+  userId         Int
+  tripId         Int
+  createdAt      DateTime  @default(now())
+  confirmedAt    DateTime?
+  expiresAt      DateTime?
+  transactions   BookingTransaction[]
+  trip           trip      @relation(fields: [tripId], references: [id], onDelete: Restrict, map: "Booking_tripId_fkey")
+  user           user      @relation(fields: [userId], references: [id], onDelete: Restrict, map: "Booking_userId_fkey")
+
+  @@index([pnr])
+  @@index([status, createdAt])
+  @@index([status, confirmedAt])
+  @@index([status, expiresAt])
+  @@index([tripId], map: "Booking_tripId_fkey")
+  @@index([userId], map: "Booking_userId_fkey")
+}
+
+model trip {
+  id             Int        @id @default(autoincrement())
+  from           String
+  to             String
+  time           DateTime
+  endsAt         DateTime?
+  status         String     @default("DRAFT")
+  driverId       String?
+  driver         employee?  @relation(fields: [driverId], references: [id], onDelete: Restrict)
+  price          Int
+  busId          String
+  availableSeats Int
+  createdAt      DateTime   @default(now())
+  bus            bus        @relation(fields: [busId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "trip_busId_fkey")
+  booking        booking[]
+  seatHolds      SeatHold[]
+
+  @@index([time])
+  @@index([busId], map: "trip_busId_idx")
+  @@index([busId, time, endsAt])
+  @@index([driverId, time, endsAt])
+}
+
+model user {
+  id        Int       @id @default(autoincrement())
+  fullName  String
+  phone     String    @unique
+  password  String
+  role      String    @default("USER") // USER, ADMIN, CUSTOMER
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  booking   booking[]
+  processedTransactions BookingTransaction[]
+}
+
+model Customer {
+  id        String   @id @db.VarChar(191)
+  name      String   @db.VarChar(191)
+  email     String   @unique @db.VarChar(191)
+  phone     String   @unique @db.VarChar(191)
+  status    String   @default("Đang hoạt động") @db.VarChar(191)
+  address   String?  @db.VarChar(191)
+  createdAt DateTime @default(now()) @db.DateTime(3)
+
+  @@map("customer")
+}
+
+model employee {
+  id           String   @id
+  name         String
+  email        String   @unique
+  phone        String   @unique
+  role         String
+  department   String
+  status       String   @default("Đang làm việc")
+  avatar       String?  @db.Text
+  identityCard String?
+  address      String?
+  startDate    String
+  trips        trip[]
+  createdAt    DateTime @default(now())
+}
+
+model SeatHold {
+  id         Int      @id @default(autoincrement())
+  tripId     Int
+  seatNumber String
+  clientId   String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  trip trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@unique([tripId, seatNumber])
+  @@index([expiresAt])
+}
+
+model bus {
+  id              String   @id
+  plate           String   @unique
+  type            String
+  capacity        Int
+  status          String   @default("Đang hoạt động")
+  brand           String?
+  year            Int?
+  driverName      String?
+  driverPhone     String?
+  lastMaintenance String?
+  notes           String?  @db.Text
+  trips           trip[]
+  createdAt       DateTime @default(now())
+}
+
+// Một lượt thanh toán cho tất cả ghế có cùng mã PNR.
+model BookingTransaction {
+  id          Int      @id @default(autoincrement())
+  bookingId   Int
+  kind        String   @db.VarChar(10)
+  amount      Int
+  method      String   @db.VarChar(20)
+  reference   String   @db.VarChar(64)
+  actorId     Int?
+  createdAt   DateTime @default(now())
+  booking     booking  @relation(fields: [bookingId], references: [id], onDelete: Restrict)
+  actor       user?    @relation(fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@unique([reference, bookingId])
+  @@index([bookingId, createdAt])
+  @@index([kind, createdAt])
+}
+
+model Payment {
+  id                    String    @id @db.VarChar(32)
+  pnr                   String    @db.VarChar(191)
+  amount                Int
+  status                String    @default("PENDING") @db.VarChar(20)
+  checkoutUrl           String    @db.Text
+  providerTransactionId String?   @unique @db.VarChar(100)
+  responseCode          String?   @db.VarChar(10)
+  createdAt             DateTime  @default(now())
+  expiresAt             DateTime
+  paidAt                DateTime?
+
+  @@index([pnr, createdAt])
+  @@index([status, createdAt])
+}

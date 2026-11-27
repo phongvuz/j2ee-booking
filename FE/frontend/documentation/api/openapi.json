@@ -1,0 +1,5994 @@
+{
+  "openapi": "3.1.1",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "SGU Booking API",
+    "version": "0.1.0",
+    "description": "Sinh từ Route Handlers, Zod validators và metadata được rà soát. Các schema mô tả yêu cầu JSON trước xử lý; refinement, chuẩn hóa/coercion và kiểm tra nghiệp vụ tiếp tục được thực thi trên server. Dữ liệu response chưa có schema runtime được để mở, không khẳng định kiểm chứng CSDL hoặc bảo mật toàn hệ thống."
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Cùng origin với ứng dụng đang chạy."
+    }
+  ],
+  "paths": {
+    "/api/admin/orders/{id}": {
+      "delete": {
+        "operationId": "delete_api_admin_orders_id",
+        "summary": "Hủy vé và giữ lịch sử",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nKhông xóa lịch sử; chuyển vé về CANCELLED và hoàn ghế theo quy tắc nghiệp vụ.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/orders/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "get": {
+        "operationId": "get_api_admin_orders_id",
+        "summary": "Xem chi tiết đơn hàng",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/orders/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "patch": {
+        "operationId": "patch_api_admin_orders_id",
+        "summary": "Đổi trạng thái vé",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nCONFIRMED tương thích luồng cũ: ghi thu tiền mặt còn thiếu với người xử lý từ phiên admin. CANCELLED trả ghế nhưng giữ nguyên khoản thu, không tự hoàn tiền. PENDING dùng để khôi phục vé đã hủy; nếu tiền chưa hoàn vẫn đủ giá vé thì khôi phục CONFIRMED. Service kiểm tra xung đột ghế trong transaction.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/orders/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderStatusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/buses/{id}": {
+      "delete": {
+        "operationId": "delete_api_buses_id",
+        "summary": "Xóa xe",
+        "tags": [
+          "buses"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/buses/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "get": {
+        "operationId": "get_api_buses_id",
+        "summary": "Xem chi tiết xe",
+        "tags": [
+          "buses"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/buses/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "put": {
+        "operationId": "put_api_buses_id",
+        "summary": "Cập nhật xe",
+        "tags": [
+          "buses"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/buses/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/employees/{id}": {
+      "delete": {
+        "operationId": "delete_api_employees_id",
+        "summary": "Xóa nhân viên",
+        "tags": [
+          "employees"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/employees/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "get": {
+        "operationId": "get_api_employees_id",
+        "summary": "Xem chi tiết nhân viên",
+        "tags": [
+          "employees"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/employees/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "put": {
+        "operationId": "put_api_employees_id",
+        "summary": "Cập nhật nhân viên",
+        "tags": [
+          "employees"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/employees/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/trips/{id}": {
+      "delete": {
+        "operationId": "delete_api_trips_id",
+        "summary": "Xóa chuyến xe",
+        "tags": [
+          "trips"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/trips/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "get": {
+        "operationId": "get_api_trips_id",
+        "summary": "Xem chi tiết chuyến xe",
+        "tags": [
+          "trips"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/trips/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_api_trips_id",
+        "summary": "Cập nhật chuyến xe",
+        "tags": [
+          "trips"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/trips/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/users/{id}": {
+      "delete": {
+        "operationId": "delete_api_users_id",
+        "summary": "Xóa tài khoản",
+        "tags": [
+          "users"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/users/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "get": {
+        "operationId": "get_api_users_id",
+        "summary": "Xem chi tiết tài khoản",
+        "tags": [
+          "users"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/users/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "put": {
+        "operationId": "put_api_users_id",
+        "summary": "Cập nhật tài khoản",
+        "tags": [
+          "users"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/users/[id]/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/admin/dispatch": {
+      "get": {
+        "operationId": "get_api_admin_dispatch",
+        "summary": "Danh sách xe và tài xế để phân công chuyến",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nMỗi tài xế có available, reason và conflictTripId. Không có khoảng giờ thì available=false, chưa xác định lịch rảnh. Chặn trùng lịch OPEN/DEPARTED; nếu giờ xuất bến đã đến thì mọi chuyến DEPARTED chưa hoàn thành cũng giữ tài xế, kể cả quá giờ kết thúc dự kiến. Phân công tương lai không bị chặn bởi chuyến hiện tại không trùng giờ. Server kiểm tra lại xe và tài xế trong transaction khi lưu chuyến.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/dispatch/route.ts",
+        "parameters": [
+          {
+            "name": "time",
+            "in": "query",
+            "required": false,
+            "description": "Giờ xuất bến: datetime-local theo giờ Việt Nam (đến phút) hoặc ISO có múi giờ; phải gửi cùng endsAt.",
+            "schema": {
+              "type": "string",
+              "description": "Giờ xuất bến: datetime-local theo giờ Việt Nam (đến phút) hoặc ISO có múi giờ; phải gửi cùng endsAt."
+            }
+          },
+          {
+            "name": "endsAt",
+            "in": "query",
+            "required": false,
+            "description": "Giờ kết thúc, cùng định dạng time và phải sau time.",
+            "schema": {
+              "type": "string",
+              "description": "Giờ kết thúc, cùng định dạng time và phải sau time."
+            }
+          },
+          {
+            "name": "excludeTripId",
+            "in": "query",
+            "required": false,
+            "description": "Bỏ qua chính chuyến đang sửa.",
+            "schema": {
+              "type": "integer",
+              "description": "Bỏ qua chính chuyến đang sửa.",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/admin/orders": {
+      "get": {
+        "operationId": "get_api_admin_orders",
+        "summary": "Tìm và phân trang lượt đặt theo PNR",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nMỗi dòng là một PNR chứa toàn bộ tickets, kể cả vé đã hủy. Bộ lọc chọn PNR có ít nhất một vé phù hợp. pagination.total và stats.orderCount đếm lượt đặt; stats.total đếm vé; transactionCount đếm mã giao dịch thu/hoàn riêng biệt.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/orders/route.ts",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Từ khóa tìm kiếm.",
+            "schema": {
+              "type": "string",
+              "description": "Từ khóa tìm kiếm."
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo status.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo status."
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo date.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo date."
+            }
+          },
+          {
+            "name": "tripId",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo tripId.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo tripId."
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+            "schema": {
+              "type": "integer",
+              "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+            "schema": {
+              "type": "integer",
+              "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Cột sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Cột sắp xếp.",
+              "enum": [
+                "createdAt",
+                "totalPrice",
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Chiều sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Chiều sắp xếp.",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminListResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "post": {
+        "operationId": "post_api_admin_orders",
+        "summary": "Tạo vé tại quầy",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/orders/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfflineBookingInput"
+              },
+              "example": {
+                "tripId": 1,
+                "seats": [
+                  "A01"
+                ],
+                "fullName": "Nguyễn Văn An",
+                "phone": "0901234567",
+                "status": "CONFIRMED"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingCreated"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/admin/stats": {
+      "get": {
+        "operationId": "get_api_admin_stats",
+        "summary": "Thống kê dashboard quản trị",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nTiền theo kỳ tính bằng khoản thu trừ khoản hoàn phát sinh trong kỳ, không dựa trên trạng thái vé. Bốn số dư thu/hoàn/chờ hoàn/phải thu tính toàn bộ lịch sử; loại trừ giao dịch DEMO.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/stats/route.ts",
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/auth/session": {
+      "get": {
+        "operationId": "get_api_auth_session",
+        "summary": "Kiểm tra phiên đăng nhập hiện tại",
+        "tags": [
+          "auth"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nKhông yêu cầu đăng nhập; trả authenticated=false và user=null khi không có phiên hợp lệ. Nếu có cả hai phiên, ưu tiên CUSTOMER. Chỉ đọc trạng thái, không đặt hoặc xóa cookie để tránh phản hồi đến muộn xóa phiên mới.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/auth/session/route.ts",
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bookings": {
+      "get": {
+        "operationId": "get_api_bookings",
+        "summary": "Tra cứu vé theo PNR và số điện thoại hành khách",
+        "tags": [
+          "bookings"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nYêu cầu đồng thời PNR và phone. Không có cơ chế liệt kê công khai toàn bộ vé. HTTP 429 có Retry-After khi vượt giới hạn tra cứu.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/bookings/route.ts",
+        "parameters": [
+          {
+            "name": "pnr",
+            "in": "query",
+            "required": true,
+            "description": "Mã đặt chỗ được trả sau khi tạo vé.",
+            "schema": {
+              "type": "string",
+              "description": "Mã đặt chỗ được trả sau khi tạo vé.",
+              "minLength": 1,
+              "maxLength": 191
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": true,
+            "description": "Số điện thoại hành khách khớp lượt đặt.",
+            "schema": {
+              "type": "string",
+              "description": "Số điện thoại hành khách khớp lượt đặt.",
+              "pattern": "^(?:0|\\+84)[0-9]{9}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LookupResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Vượt giới hạn tra cứu; thử lại sau Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Số giây chờ trước khi thử lại.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_api_bookings",
+        "summary": "Tạo lượt đặt vé online chờ thanh toán",
+        "tags": [
+          "bookings"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nCho phép khách vãng lai; phiên khách hàng hợp lệ liên kết vé với tài khoản. seats là mảng mã ghế, không dùng seatNumber riêng lẻ. Server tự tính giá và tạo vé PENDING; không nhận giá/trạng thái thanh toán từ client. Nếu truyền clientId cần cookie seat_session tương ứng. Kiểm tra xung đột, ghế còn trống và thời gian được thực hiện lại trong transaction.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/bookings/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnlineBookingInput"
+              },
+              "example": {
+                "tripId": 1,
+                "seats": [
+                  "A01"
+                ],
+                "fullName": "Nguyễn Văn An",
+                "phone": "0901234567"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingCreated"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/buses": {
+      "get": {
+        "operationId": "get_api_buses",
+        "summary": "Tìm và phân trang xe",
+        "tags": [
+          "buses"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/buses/route.ts",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Từ khóa tìm kiếm.",
+            "schema": {
+              "type": "string",
+              "description": "Từ khóa tìm kiếm."
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo type.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo type."
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo status.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo status."
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+            "schema": {
+              "type": "integer",
+              "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+            "schema": {
+              "type": "integer",
+              "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Cột sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Cột sắp xếp.",
+              "enum": [
+                "plate",
+                "capacity",
+                "createdAt",
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Chiều sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Chiều sắp xếp.",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "selectable",
+            "in": "query",
+            "required": false,
+            "description": "true: trả toàn bộ xe đang hoạt động để chọn khi tạo/sửa chuyến; không phân trang.",
+            "schema": {
+              "type": "string",
+              "description": "true: trả toàn bộ xe đang hoạt động để chọn khi tạo/sửa chuyến; không phân trang.",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "post": {
+        "operationId": "post_api_buses",
+        "summary": "Tạo xe",
+        "tags": [
+          "buses"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/buses/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/employees": {
+      "get": {
+        "operationId": "get_api_employees",
+        "summary": "Tìm và phân trang nhân viên",
+        "tags": [
+          "employees"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/employees/route.ts",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Từ khóa tìm kiếm.",
+            "schema": {
+              "type": "string",
+              "description": "Từ khóa tìm kiếm."
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo role.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo role."
+            }
+          },
+          {
+            "name": "department",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo department.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo department."
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo status.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo status."
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+            "schema": {
+              "type": "integer",
+              "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+            "schema": {
+              "type": "integer",
+              "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Cột sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Cột sắp xếp.",
+              "enum": [
+                "name",
+                "createdAt",
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Chiều sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Chiều sắp xếp.",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminListResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "post": {
+        "operationId": "post_api_employees",
+        "summary": "Tạo nhân viên",
+        "tags": [
+          "employees"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/employees/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/openapi": {
+      "get": {
+        "operationId": "get_api_openapi",
+        "summary": "Tải đặc tả OpenAPI của API hiện tại",
+        "tags": [
+          "openapi"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nĐặc tả tĩnh được sinh từ route, schema Zod và metadata đã rà soát; không truy cập CSDL.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/openapi/route.ts",
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenApiDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/status": {
+      "get": {
+        "operationId": "get_api_payments_status",
+        "summary": "Kiểm tra trạng thái thanh toán theo PNR",
+        "tags": [
+          "payments"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nTrả trạng thái thanh toán và các khoản received, refunded, refundDue, amountDue từ sổ thu/hoàn. bookingStatus là CONFIRMED, PENDING hoặc UNAVAILABLE. Cần biết mã PNR.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/payments/status/route.ts",
+        "parameters": [
+          {
+            "name": "pnr",
+            "in": "query",
+            "required": true,
+            "description": "Mã đặt chỗ được trả sau khi tạo vé.",
+            "schema": {
+              "type": "string",
+              "description": "Mã đặt chỗ được trả sau khi tạo vé.",
+              "minLength": 1,
+              "maxLength": 191
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trips": {
+      "get": {
+        "operationId": "get_api_trips",
+        "summary": "Tìm chuyến công khai hoặc liệt kê chuyến quản trị",
+        "tags": [
+          "trips"
+        ],
+        "description": "Công khai khi không bật admin=true; admin=true bắt buộc ADMIN.\n\nChế độ công khai chuẩn hóa bộ lọc và trả chuyến tương lai. Các tham số bookable, search, sortBy, sortOrder chỉ dùng khi admin=true; chế độ này kiểm tra quyền ADMIN.",
+        "security": [
+          {},
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "optional-admin",
+        "x-source": "app/api/trips/route.ts",
+        "parameters": [
+          {
+            "name": "admin",
+            "in": "query",
+            "required": false,
+            "description": "admin=true bắt buộc phiên ADMIN; mặc định tìm chuyến công khai.",
+            "schema": {
+              "type": "string",
+              "description": "admin=true bắt buộc phiên ADMIN; mặc định tìm chuyến công khai.",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "bookable",
+            "in": "query",
+            "required": false,
+            "description": "Chỉ chế độ admin: lọc chuyến có thể đặt.",
+            "schema": {
+              "type": "string",
+              "description": "Chỉ chế độ admin: lọc chuyến có thể đặt.",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Chỉ chế độ admin: từ khóa.",
+            "schema": {
+              "type": "string",
+              "description": "Chỉ chế độ admin: từ khóa."
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "description": "Điểm đi; công khai nhận mã địa điểm hoặc tên.",
+            "schema": {
+              "type": "string",
+              "description": "Điểm đi; công khai nhận mã địa điểm hoặc tên."
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "description": "Điểm đến.",
+            "schema": {
+              "type": "string",
+              "description": "Điểm đến."
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "description": "Ngày đi YYYY-MM-DD theo giờ Việt Nam.",
+            "schema": {
+              "type": "string",
+              "description": "Ngày đi YYYY-MM-DD theo giờ Việt Nam."
+            }
+          },
+          {
+            "name": "times",
+            "in": "query",
+            "required": false,
+            "description": "Công khai: early,morning,afternoon,night; phân tách bằng dấu phẩy hoặc lặp tham số.",
+            "schema": {
+              "type": "string",
+              "description": "Công khai: early,morning,afternoon,night; phân tách bằng dấu phẩy hoặc lặp tham số."
+            }
+          },
+          {
+            "name": "vehicles",
+            "in": "query",
+            "required": false,
+            "description": "Công khai: limousine,sleeper,other; phân tách bằng dấu phẩy hoặc lặp tham số.",
+            "schema": {
+              "type": "string",
+              "description": "Công khai: limousine,sleeper,other; phân tách bằng dấu phẩy hoặc lặp tham số."
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+            "schema": {
+              "type": "integer",
+              "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+            "schema": {
+              "type": "integer",
+              "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Chỉ chế độ admin.",
+            "schema": {
+              "type": "string",
+              "description": "Chỉ chế độ admin.",
+              "enum": [
+                "createdAt",
+                "time",
+                "price",
+                "availableSeats",
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Chiều sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Chiều sắp xếp.",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripListResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_api_trips",
+        "summary": "Tạo chuyến xe",
+        "tags": [
+          "trips"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/trips/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/trips/{id}/holds": {
+      "get": {
+        "operationId": "get_api_trips_id_holds",
+        "summary": "Tải ghế đã đặt, ghế giữ và lựa chọn tạm",
+        "tags": [
+          "trips"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nTạo cookie seat_session HttpOnly nếu chưa có; truyền cùng clientId khi mở stream và gửi thao tác. holds chỉ lộ seatNumber và isOwn, không lộ khóa sở hữu.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/trips/[id]/holds/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "required": false,
+            "description": "Mã riêng của tab; không phải thông tin xác thực. Cookie seat_session được tạo bởi holds/stream.",
+            "schema": {
+              "type": "string",
+              "description": "Mã riêng của tab; không phải thông tin xác thực. Cookie seat_session được tạo bởi holds/stream.",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-zA-Z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeatStateResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trips/{id}/stream": {
+      "get": {
+        "operationId": "get_api_trips_id_stream",
+        "summary": "Mở SSE đồng bộ ghế và số người xem",
+        "tags": [
+          "trips"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nEventSource nhận data: JSON theo schema SeatRealtimeMessage, kết thúc mỗi thông điệp bằng hai newline. Snapshot ban đầu, sự kiện chọn/bỏ chọn, số người xem và SEATS_CHANGED. Heartbeat là comment mỗi 15 giây. Số người xem đếm clientId khác nhau. Lựa chọn tạm và broadcast chỉ tồn tại trong RAM cùng một tiến trình Node.js; chưa đồng bộ nhiều máy chủ.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/trips/[id]/stream/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "required": false,
+            "description": "Mã riêng của tab; không phải thông tin xác thực. Cookie seat_session được tạo bởi holds/stream.",
+            "schema": {
+              "type": "string",
+              "description": "Mã riêng của tab; không phải thông tin xác thực. Cookie seat_session được tạo bởi holds/stream.",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-zA-Z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Luồng SSE liên tục; schema mô tả JSON trong mỗi data: frame, không phải toàn bộ HTTP body.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "Luồng SSE; tham chiếu x-event-schema cho mỗi JSON data frame."
+                },
+                "x-event-schema": {
+                  "$ref": "#/components/schemas/SeatRealtimeMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trips/locations": {
+      "get": {
+        "operationId": "get_api_trips_locations",
+        "summary": "Danh sách địa điểm phục vụ quản trị",
+        "tags": [
+          "trips"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/trips/locations/route.ts",
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayDataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/users": {
+      "get": {
+        "operationId": "get_api_users",
+        "summary": "Tìm và phân trang tài khoản",
+        "tags": [
+          "users"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/users/route.ts",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Từ khóa tìm kiếm.",
+            "schema": {
+              "type": "string",
+              "description": "Từ khóa tìm kiếm."
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "description": "Lọc theo role.",
+            "schema": {
+              "type": "string",
+              "description": "Lọc theo role."
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+            "schema": {
+              "type": "integer",
+              "description": "Trang, mặc định 1; giá trị không hợp lệ được chuẩn hóa.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+            "schema": {
+              "type": "integer",
+              "description": "Số bản ghi mỗi trang, mặc định 10; giới hạn do service áp dụng.",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Cột sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Cột sắp xếp.",
+              "enum": [
+                "createdAt",
+                "fullName",
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Chiều sắp xếp.",
+            "schema": {
+              "type": "string",
+              "description": "Chiều sắp xếp.",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminListResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      },
+      "post": {
+        "operationId": "post_api_users",
+        "summary": "Tạo tài khoản",
+        "tags": [
+          "users"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nNgoài schema Zod chung, service bắt buộc password cho tài khoản mới và từ chối role=CUSTOMER; tài khoản CUSTOMER phải tạo qua /api/auth/register.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/users/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/buses/{id}/status": {
+      "patch": {
+        "operationId": "patch_api_buses_id_status",
+        "summary": "Đổi trạng thái hoạt động của xe",
+        "tags": [
+          "buses"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/buses/[id]/status/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusStatusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/customer/profile": {
+      "patch": {
+        "operationId": "patch_api_customer_profile",
+        "summary": "Cập nhật hồ sơ hoặc đổi mật khẩu",
+        "tags": [
+          "customer"
+        ],
+        "description": "Yêu cầu phiên tài khoản CUSTOMER đang hoạt động.\n\naction=profile cập nhật thông tin; action=password yêu cầu currentPassword, password và confirmPassword. Mật khẩu mới phải khác hiện tại và khớp xác nhận. Đổi mật khẩu thành công cấp lại cookie phiên.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-access": "customer",
+        "x-source": "app/api/customer/profile/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateInput"
+              },
+              "example": {
+                "action": "profile",
+                "fullName": "Nguyễn Văn An",
+                "email": "an@example.com",
+                "phone": "0901234567",
+                "address": "TP. Hồ Chí Minh"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "CUSTOMER"
+      }
+    },
+    "/api/employees/{id}/status": {
+      "patch": {
+        "operationId": "patch_api_employees_id_status",
+        "summary": "Đổi trạng thái nhân viên",
+        "tags": [
+          "employees"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/employees/[id]/status/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Mã tài nguyên dạng chuỗi; dùng đúng mã được API trả về.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeStatusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/users/{id}/role": {
+      "patch": {
+        "operationId": "patch_api_users_id_role",
+        "summary": "Đổi vai trò tài khoản",
+        "tags": [
+          "users"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nEndpoint này chỉ chấp nhận USER hoặc ADMIN. Các quy tắc không tự hạ quyền/vô hiệu hóa quản trị viên cuối cùng được service kiểm tra.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/users/[id]/role/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/admin/orders/{id}/payment": {
+      "post": {
+        "operationId": "post_api_admin_orders_id_payment",
+        "summary": "Ghi nhận thu hoặc hoàn tiền của một vé",
+        "tags": [
+          "admin"
+        ],
+        "description": "Yêu cầu đăng nhập bằng tài khoản ADMIN.\n\nServer tự tính số tiền còn phải thu/hoàn và lưu người xử lý từ phiên admin. Chỉ hoàn vé đã hủy. Ghi sổ không tự chuyển tiền qua ngân hàng; giao dịch demo không được tính vào báo cáo tiền thật.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "AdminSessionCookie": []
+          }
+        ],
+        "x-access": "admin",
+        "x-source": "app/api/admin/orders/[id]/payment/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderPaymentInput"
+              },
+              "example": {
+                "kind": "RECEIPT",
+                "method": "CASH"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-role": "ADMIN"
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "post_api_auth_login",
+        "summary": "Đăng nhập khách hàng hoặc quản trị viên",
+        "tags": [
+          "auth"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nEmail hoặc số điện thoại trong identifier. Trả cookie HttpOnly riêng: admin_session cho ADMIN, customer_session cho CUSTOMER; audience giới hạn loại tài khoản được đăng nhập. Hai phiên tồn tại độc lập trong cùng trình duyệt. Bản demo thêm tiền tố demo_ vào tên cookie.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/auth/login/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              },
+              "example": {
+                "identifier": "an@example.com",
+                "password": "example-password",
+                "audience": "customer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa đăng nhập hoặc thông tin đăng nhập không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "post_api_auth_logout",
+        "summary": "Đăng xuất và xóa cookie phiên",
+        "tags": [
+          "auth"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/auth/logout/route.ts",
+        "parameters": [
+          {
+            "name": "audience",
+            "in": "query",
+            "required": false,
+            "description": "Loại phiên cần đăng xuất, mặc định customer; không xóa phiên của loại tài khoản còn lại.",
+            "schema": {
+              "type": "string",
+              "description": "Loại phiên cần đăng xuất, mặc định customer; không xóa phiên của loại tài khoản còn lại.",
+              "enum": [
+                "customer",
+                "admin"
+              ],
+              "default": "customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "post_api_auth_register",
+        "summary": "Đăng ký tài khoản khách hàng",
+        "tags": [
+          "auth"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nMật khẩu xác nhận phải trùng; tài khoản thành công nhận cookie customer_session. Không gửi mật khẩu thật vào tài liệu.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/auth/register/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterInput"
+              },
+              "example": {
+                "fullName": "Nguyễn Văn An",
+                "email": "an@example.com",
+                "phone": "0901234567",
+                "password": "example-password",
+                "confirmPassword": "example-password",
+                "agreeTerms": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/demo/confirm": {
+      "post": {
+        "operationId": "post_api_payments_demo_confirm",
+        "summary": "Xác nhận thanh toán giả lập",
+        "tags": [
+          "payments"
+        ],
+        "description": "Không yêu cầu phiên tài khoản.\n\nChỉ hoạt động khi PAYMENT_DEMO_ENABLED=true và cấu hình VietQR hợp lệ. Đây là giả lập, không gọi ngân hàng hoặc xác minh tiền thực nhận. Server tự tính tiền; từ chối vé hết hạn, bị hủy hoặc đã xuất bến. Cần biết PNR; endpoint không yêu cầu tài khoản admin.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [],
+        "x-access": "public",
+        "x-source": "app/api/payments/demo/confirm/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DemoPaymentInput"
+              },
+              "example": {
+                "pnr": "NHAXE-1-EXAMPLE"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Chưa cấu hình hợp lệ tài khoản VietQR.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seats/hold": {
+      "post": {
+        "operationId": "post_api_seats_hold",
+        "summary": "Giữ ghế có hạn hoặc giải phóng ghế giữ",
+        "tags": [
+          "seats"
+        ],
+        "description": "Yêu cầu cookie seat_session hợp lệ, gắn với clientId.\n\nCookie seat_session được cấp từ holds/stream; clientId là mã tab. action=hold tạo SeatHold 5 phút trong CSDL; action=release giải phóng ghế thuộc phiên. UI chọn ghế hiện tại không tự gọi API giữ ghế này.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "SeatSessionCookie": []
+          }
+        ],
+        "x-access": "seat",
+        "x-source": "app/api/seats/hold/route.ts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeatHoldInput"
+              },
+              "example": {
+                "tripId": 1,
+                "clientId": "example-tab",
+                "seatNumber": "A01",
+                "action": "hold"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trips/{id}/seat-events": {
+      "post": {
+        "operationId": "post_api_trips_id_seat_events",
+        "summary": "Gửi chọn hoặc bỏ chọn ghế realtime",
+        "tags": [
+          "trips"
+        ],
+        "description": "Yêu cầu cookie seat_session hợp lệ, gắn với clientId.\n\nCần kết nối SSE đang hoạt động của cùng clientId/cookie. tripId trong body phải khớp URL. Tối đa 5 ghế/client; 409 nếu ghế bị client khác chọn hoặc đã có vé. Đây là lựa chọn tạm, chưa phải vé hay SeatHold bền vững.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "SeatSessionCookie": []
+          }
+        ],
+        "x-access": "seat",
+        "x-source": "app/api/trips/[id]/seat-events/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeatInteractionInput"
+              },
+              "example": {
+                "tripId": 1,
+                "clientId": "example-tab",
+                "seatNumber": "A01",
+                "type": "SEAT_SELECTED"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_api_trips_id_seat_events",
+        "summary": "Đồng bộ lựa chọn sau khi kết nối lại",
+        "tags": [
+          "trips"
+        ],
+        "description": "Yêu cầu cookie seat_session hợp lệ, gắn với clientId.\n\nCần SSE đang hoạt động; tripId khớp URL; selectedSeats không trùng và tối đa 5. Client cần tải trạng thái holds/booked trước, loại ghế không còn khả dụng rồi mới đồng bộ. Không có hàng đợi thao tác offline.\n\nYêu cầu ghi phải cùng origin với ứng dụng; gửi Content-Type: application/json nếu có body. Cookie do trình duyệt quản lý.",
+        "security": [
+          {
+            "SeatSessionCookie": []
+          }
+        ],
+        "x-access": "seat",
+        "x-source": "app/api/trips/[id]/seat-events/route.ts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID nguyên dương, tối đa 2147483647.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeatSyncInput"
+              },
+              "example": {
+                "tripId": 1,
+                "clientId": "example-tab",
+                "selectedSeats": [
+                  "A01"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yêu cầu thành công.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON, tham số hoặc dữ liệu không hợp lệ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Không đủ quyền, nguồn yêu cầu không hợp lệ hoặc tính năng bị tắt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy tài nguyên.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Xung đột dữ liệu, ghế hoặc trạng thái nghiệp vụ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Lỗi máy chủ hoặc cấu hình.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "SessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "customer_session",
+        "description": "Cookie HttpOnly sau đăng nhập/đăng ký CUSTOMER, hạn 24 giờ. Bản demo dùng demo_customer_session. Server kiểm tra lại tài khoản và phiên bản mật khẩu."
+      },
+      "AdminSessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "admin_session",
+        "description": "Cookie HttpOnly riêng cho ADMIN, hạn 24 giờ. Bản demo dùng demo_admin_session. Đăng nhập/đăng xuất khách hàng không thay đổi phiên này."
+      },
+      "SeatSessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "seat_session",
+        "description": "Cookie HttpOnly được cấp khi đọc holds hoặc mở stream; server kết hợp với clientId để xác định sở hữu."
+      }
+    },
+    "schemas": {
+      "LoginInput": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "audience": {
+            "type": "string",
+            "enum": [
+              "customer",
+              "admin"
+            ]
+          }
+        },
+        "required": [
+          "identifier",
+          "password"
+        ]
+      },
+      "RegisterInput": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 191,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^0[0-9]{9}$"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 191
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "agreeTerms": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "fullName",
+          "email",
+          "phone",
+          "password",
+          "confirmPassword",
+          "agreeTerms"
+        ]
+      },
+      "CustomerUpdateInput": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "const": "profile"
+              },
+              "fullName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 191
+              },
+              "email": {
+                "type": "string",
+                "maxLength": 191,
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              "phone": {
+                "type": "string",
+                "pattern": "^0[0-9]{9}$"
+              },
+              "address": {
+                "type": "string",
+                "maxLength": 191
+              }
+            },
+            "required": [
+              "action",
+              "fullName",
+              "email",
+              "phone"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "const": "password"
+              },
+              "currentPassword": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "password": {
+                "type": "string",
+                "minLength": 6,
+                "maxLength": 128
+              },
+              "confirmPassword": {
+                "type": "string",
+                "maxLength": 128
+              }
+            },
+            "required": [
+              "action",
+              "currentPassword",
+              "password",
+              "confirmPassword"
+            ]
+          }
+        ]
+      },
+      "OnlineBookingInput": {
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 2147483647
+          },
+          "seats": {
+            "minItems": 1,
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5
+            }
+          },
+          "fullName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^(0|\\+84)(3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$"
+          },
+          "clientId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          }
+        },
+        "required": [
+          "tripId",
+          "seats",
+          "fullName",
+          "phone"
+        ]
+      },
+      "OfflineBookingInput": {
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 2147483647
+          },
+          "seats": {
+            "minItems": 1,
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5
+            }
+          },
+          "fullName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^(0|\\+84)(3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$"
+          },
+          "status": {
+            "default": "CONFIRMED",
+            "type": "string",
+            "enum": [
+              "CONFIRMED",
+              "PENDING"
+            ]
+          },
+          "paymentMethod": {
+            "default": "CASH",
+            "type": "string",
+            "enum": [
+              "CASH",
+              "BANK_TRANSFER"
+            ]
+          }
+        },
+        "required": [
+          "tripId",
+          "seats",
+          "fullName",
+          "phone"
+        ]
+      },
+      "TripInput": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "default": "DRAFT",
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "OPEN",
+              "DEPARTED",
+              "COMPLETED",
+              "CANCELLED"
+            ]
+          },
+          "driverId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 191
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "endsAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "from": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 191
+          },
+          "to": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 191
+          },
+          "time": {
+            "type": "string",
+            "minLength": 1
+          },
+          "price": {
+            "type": "integer",
+            "minimum": 10000,
+            "maximum": 10000000
+          },
+          "busId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "time",
+          "price",
+          "busId"
+        ]
+      },
+      "BusInput": {
+        "type": "object",
+        "properties": {
+          "plate": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 20,
+            "pattern": "^[0-9]{2}[A-Z]{1,2}-[0-9]{3,5}(\\.[0-9]{2})?$"
+          },
+          "type": {
+            "type": "string",
+            "minLength": 2
+          },
+          "capacity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Đang hoạt động",
+              "Bảo dưỡng",
+              "Ngừng hoạt động"
+            ]
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "string",
+                "const": ""
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 2000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            ],
+            "description": "Năm tối thiểu 2000; tối đa năm hiện tại của server + 1; chuỗi rỗng được đổi thành null."
+          },
+          "driverName": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          },
+          "driverPhone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          },
+          "lastMaintenance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          }
+        },
+        "required": [
+          "plate",
+          "type",
+          "capacity",
+          "status"
+        ]
+      },
+      "EmployeeInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 191,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^(0|\\+84)(3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          },
+          "department": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Đang làm việc",
+              "Nghỉ phép",
+              "Đã nghỉ việc"
+            ]
+          },
+          "identityCard": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 191
+          },
+          "startDate": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "phone",
+          "role",
+          "department",
+          "status",
+          "startDate"
+        ]
+      },
+      "UserInput": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^(0|\\+84)(3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$"
+          },
+          "password": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 6,
+                "maxLength": 128
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          },
+          "role": {
+            "default": "USER",
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN",
+              "CUSTOMER"
+            ]
+          },
+          "isActive": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fullName",
+          "phone"
+        ]
+      },
+      "SeatInteractionInput": {
+        "type": "object",
+        "properties": {
+          "seatNumber": {
+            "type": "string",
+            "pattern": "^[ABC][0-9]{2}$"
+          },
+          "clientId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "tripId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 2147483647
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "SEAT_SELECTED",
+              "SEAT_DESELECTED"
+            ]
+          }
+        },
+        "required": [
+          "seatNumber",
+          "clientId",
+          "tripId",
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "SeatSyncInput": {
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 2147483647
+          },
+          "clientId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "selectedSeats": {
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[ABC][0-9]{2}$"
+            }
+          }
+        },
+        "required": [
+          "tripId",
+          "clientId",
+          "selectedSeats"
+        ],
+        "additionalProperties": false
+      },
+      "SeatRealtimeMessage": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "seatNumber": {
+                "type": "string",
+                "pattern": "^[ABC][0-9]{2}$"
+              },
+              "clientId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "^[a-zA-Z0-9_-]+$"
+              },
+              "tripId": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "SEAT_SELECTED",
+                  "SEAT_DESELECTED"
+                ]
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              }
+            },
+            "required": [
+              "seatNumber",
+              "clientId",
+              "tripId",
+              "type",
+              "timestamp"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "tripId": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "type": {
+                "type": "string",
+                "const": "SEAT_SNAPSHOT"
+              },
+              "selections": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "seatNumber": {
+                      "type": "string",
+                      "pattern": "^[ABC][0-9]{2}$"
+                    },
+                    "clientId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "pattern": "^[a-zA-Z0-9_-]+$"
+                    }
+                  },
+                  "required": [
+                    "seatNumber",
+                    "clientId"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "bookedSeats": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[ABC][0-9]{2}$"
+                }
+              },
+              "viewerCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              }
+            },
+            "required": [
+              "tripId",
+              "type",
+              "selections",
+              "bookedSeats",
+              "viewerCount",
+              "timestamp"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "tripId": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "type": {
+                "type": "string",
+                "const": "SEATS_CHANGED"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              }
+            },
+            "required": [
+              "tripId",
+              "type",
+              "timestamp"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "tripId": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "type": {
+                "type": "string",
+                "const": "VIEWERS_UPDATED"
+              },
+              "viewerCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              }
+            },
+            "required": [
+              "tripId",
+              "type",
+              "viewerCount",
+              "timestamp"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "SeatHoldInput": {
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 2147483647
+          },
+          "seatNumber": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 5
+          },
+          "clientId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "hold",
+              "release"
+            ]
+          }
+        },
+        "required": [
+          "tripId",
+          "seatNumber",
+          "clientId",
+          "action"
+        ]
+      },
+      "DemoPaymentInput": {
+        "type": "object",
+        "properties": {
+          "pnr": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          }
+        },
+        "required": [
+          "pnr"
+        ],
+        "additionalProperties": false
+      },
+      "OrderPaymentInput": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "RECEIPT",
+              "REFUND"
+            ]
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "CASH",
+              "BANK_TRANSFER"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "method"
+        ],
+        "additionalProperties": false
+      },
+      "OrderStatusInput": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "CONFIRMED",
+              "PENDING",
+              "CANCELLED"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "BusStatusInput": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "Đang hoạt động",
+              "Bảo dưỡng",
+              "Ngừng hoạt động"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "EmployeeStatusInput": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "Đang làm việc",
+              "Nghỉ phép",
+              "Đã nghỉ việc"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "UserRoleInput": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          }
+        },
+        "required": [
+          "role"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": false
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {}
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "Success": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          }
+        },
+        "required": [
+          "success"
+        ]
+      },
+      "SuccessMessage": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ]
+      },
+      "MessageResult": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "DataResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "data": {
+            "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "ArrayDataResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+            }
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "AdminListResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+            }
+          },
+          "pagination": {
+            "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+          },
+          "stats": {
+            "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "data",
+          "pagination",
+          "stats",
+          "message"
+        ]
+      },
+      "TripListResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+            }
+          },
+          "count": {
+            "type": "integer"
+          },
+          "pagination": {
+            "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+          },
+          "stats": {
+            "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "data",
+          "pagination"
+        ]
+      },
+      "LookupResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "count": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "description": "Dữ liệu do service trả về; chưa có schema response dùng chung. Cấu trúc bên trong không được suy đoán từ TypeScript hoặc Prisma."
+            }
+          }
+        },
+        "required": [
+          "success",
+          "count",
+          "data"
+        ]
+      },
+      "BookingCreated": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "pnr": {
+                "type": "string"
+              },
+              "tripId": {
+                "type": "integer"
+              },
+              "passenger": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "phone"
+                ]
+              },
+              "seats": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "totalPrice": {
+                "type": "number"
+              },
+              "bookingIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "pnr",
+              "tripId",
+              "passenger",
+              "seats",
+              "totalPrice",
+              "bookingIds"
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "message",
+          "data"
+        ]
+      },
+      "PaymentResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "NONE",
+                  "SUCCESS",
+                  "REVIEW"
+                ]
+              },
+              "bookingStatus": {
+                "type": "string",
+                "enum": [
+                  "CONFIRMED",
+                  "PENDING",
+                  "UNAVAILABLE"
+                ]
+              }
+            },
+            "required": [
+              "status",
+              "bookingStatus"
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "LoginResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "redirectTo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "redirectTo"
+        ]
+      },
+      "RegistrationResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "redirectTo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "message",
+          "redirectTo"
+        ]
+      },
+      "SessionResult": {
+        "type": "object",
+        "properties": {
+          "authenticated": {
+            "type": "boolean"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "role"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "authenticated",
+          "user"
+        ]
+      },
+      "SeatStateResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "capacity": {
+            "type": "integer"
+          },
+          "bookedSeats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "holds": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "seatNumber": {
+                  "type": "string"
+                },
+                "isOwn": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "seatNumber",
+                "isOwn"
+              ]
+            }
+          },
+          "selections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "seatNumber": {
+                  "type": "string"
+                },
+                "clientId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "seatNumber",
+                "clientId"
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "capacity",
+          "bookedSeats",
+          "holds",
+          "selections"
+        ]
+      },
+      "OpenApiDocument": {
+        "type": "object",
+        "description": "Đặc tả OpenAPI 3.1.1 do generator tạo; không nhúng lặp chính nó."
+      }
+    }
+  },
+  "x-generation": {
+    "command": "node scripts/generate-api-docs.cjs",
+    "check": "node scripts/generate-api-docs.cjs --check",
+    "operationCount": 47,
+    "sourceSha256": {
+      "app/api/admin/dispatch/route.ts": "d54f9fce53649a773acc123fc5dddee279ddd44e202f8ba13aaddd4547f21c58",
+      "app/api/admin/orders/[id]/payment/route.ts": "d6484106109920342b945956364066bd3ef01d980db8f943c5902d0a0e8bb773",
+      "app/api/admin/orders/[id]/route.ts": "f77bda0ed919cdc2a7d81c947139e3bc802ad9591225febaeed31eac2099dd5d",
+      "app/api/admin/orders/route.ts": "c50e50a02eb6e1874f7d8a756fb2a364ae1ec1168690e9ccfd02138dd49a589d",
+      "app/api/admin/stats/route.ts": "3c4da6b84bc0157f3ecfefc27f1d725b481008eb47548b62cf23d4afa53cb4d3",
+      "app/api/auth/login/route.ts": "4873a817e07965328e70bfae48a40b7b1e6ac33068f1eb9386f8124ca73c03ff",
+      "app/api/auth/logout/route.ts": "29d4c3eab91606c62a902f07345add4fb4ccdd31da2cb6a3d0eaef98d2f6ce27",
+      "app/api/auth/register/route.ts": "fc251ad0ed30572db4d66a82a3df4aeedf5f410144b0996e804fe6f569b9d296",
+      "app/api/auth/session/route.ts": "77f119a4f56df18bd679df2ce03e26f7b68eab5636327fec8d3ebe1bb8493b14",
+      "app/api/bookings/route.ts": "439a58c38580a691324845b3f71b215432511526c26731d0567894d7fb9edce2",
+      "app/api/buses/[id]/route.ts": "329df77ca507ee790783db6e51462f559f07be0a58de14749440a35cc1a08819",
+      "app/api/buses/[id]/status/route.ts": "ecf4108262478d0798cd3838b19a336f3caf4696741ab675d4190af18d1df92e",
+      "app/api/buses/route.ts": "96875a3f286d3c7d8f829f7a06ec4cb3de7a5a980cf964fd6c2a512d48e89501",
+      "app/api/customer/profile/route.ts": "0dfd152c28112c077023ecc8ea70b9b724b48daf69e3d46bbeafe7fb7be15140",
+      "app/api/employees/[id]/route.ts": "63a17a37cb8190a605ed6a2e44d25e359fd3b92f213a81ec8673aa062bf9a91f",
+      "app/api/employees/[id]/status/route.ts": "cb288c8af67f78160010cb8e7287872442d030628a37d65769f23b5345db0649",
+      "app/api/employees/route.ts": "3f938f45481cd73e2befbccef8e8995f49207116b4c697493945670c8025583c",
+      "app/api/openapi/route.ts": "399a6fca3ddc82788ef8539dce0e80d0d5701c0f9c595cea7ba58cc9b71c8082",
+      "app/api/payments/demo/confirm/route.ts": "93b27c6276a883a1a8de80405e85a828422b39abe998d0c8253cd6544bdab8d1",
+      "app/api/payments/status/route.ts": "a7de6994b0ad1c3691632122ddb6767a90c96c0dd6ca72272f1e4164b8b4771e",
+      "app/api/seats/hold/route.ts": "aaca3498c043153c303ca38c0d289227210d57eb1d3eeeb9036dc15bf40e7e98",
+      "app/api/trips/[id]/holds/route.ts": "f96521219c14d9e88b5a819aa9faf8b73422f879923bdaf1851a6dbc69818fb2",
+      "app/api/trips/[id]/route.ts": "8b41df91baa5febff87646b451d5e72d501b682a72f104c48c9c642c94228a31",
+      "app/api/trips/[id]/seat-events/route.ts": "94d44e5de5ac6b05cc51ad98ff1a0bd21732547020e6cf8a5ca92c9472f4ecd6",
+      "app/api/trips/[id]/stream/route.ts": "d4490ed2d4b369bb90ee4bf719b470ed7ed662f303bf83db3cb5724830bea228",
+      "app/api/trips/locations/route.ts": "7f9b0f824a92b431690f3eb7f5a56b271754156b468db21ccbbec119794fbe64",
+      "app/api/trips/route.ts": "434ce979c22892527c3f89a8fe720a5b1bd7046ad44365e99289bd5fbdeadac2",
+      "app/api/users/[id]/role/route.ts": "1967399716e40e17cf8809b52c2d84545b47d16c22de619af7dd05c3bff2f792",
+      "app/api/users/[id]/route.ts": "d67f00ded0db5e3fef73f8eebd6d5af5a511461488dce1e2635c499f69839d70",
+      "app/api/users/route.ts": "6a0acf89ba3e43ae0983e44fc9ed852b8553ddee3abca11fd1e3147a80293181",
+      "lib/admin-api.ts": "a3a26536d0b070dbdeaedeb8fa62c13ef89657fff5fa701c4be9e3ddd84c9fa6",
+      "lib/business-error.ts": "1155431c742bf085abfa2d8c004e0444f094c7d0d2389546fa19348d133ecb3c",
+      "lib/public-trip-search.ts": "89740be5a50694021306a4a9ecc6c45910cae37e24dfd2a7dc01b1dd16eeddd3",
+      "lib/query-params.ts": "11f59f4d9c6f8fc64af87ef20ab89f65f9cecb034867a6af72f48d33cc8fdd4f",
+      "lib/request-origin.ts": "89134178ab322b5c332f40626df8b5ee66838b38fa02f73e6723411812608f05",
+      "lib/seat-session.ts": "38948d97ee00eafa364cf9e64e1a72c8f59fe81950f4e65553d07e364e44d0a6",
+      "lib/session.ts": "2a43a11596e58dbf5c5c3f4ea3e01da07c080eb60c423ff76d15fdd479de1941",
+      "lib/trip-id.ts": "c80bc9868965941876d4220fe76c56e658fe2922a7696af1ef2108f0c277ab2f",
+      "lib/trip-search.ts": "013c206ed4e4f6b5d73d731e0fc2b3db1e366688f443018aa66e1cc7ffa869a7",
+      "lib/validations/bus.ts": "2a56cf69cc168fde7b5810f4c69feae4d2a3a1f65b8da3dce1e5d2e0a4bd8f1e",
+      "lib/validations/employee.ts": "695959f702ae6e7a3a5c1f9b582ed47e7cc860379e9214a402df9e833f3c7e25",
+      "lib/validations/order.ts": "23374721bcd5ac7bc6762814d405f9a0157a39deb10db7038d9a8d6c261d93cb",
+      "lib/validations/profile.ts": "238be8a75708dccd601b4a55c30c6daf6d2c6557a09fb254f240ada3d5c748da",
+      "lib/validations/register.ts": "8024f790afdd149b4a9c424ce013f18f8e59b8ca94424aff1c0f3475f71bc4e7",
+      "lib/validations/seat-realtime.ts": "f68778065a6f6677c2ab0932ffba4958f9d27d2f3bfcbcc83c9a16b8738142e2",
+      "lib/validations/trip.ts": "b642659c1618ec0b4f41a64bf6cde29d59bb02ac466b44405994f3e71fb19a02",
+      "lib/validations/user.ts": "959c6e107d6ecb52039a31fadf78042d885e6281a9a2dc5040a19de6b1ac4833",
+      "lib/vietqr.ts": "adb9e0a12b9ab148d631b08c566f678f31b9053246446e6ab2390c818e734a86",
+      "proxy.ts": "aaa6978cb4e935103d225531e5103b4324790ff2d77ebda63b6d5b8adac738b2",
+      "scripts/api-docs-metadata.cjs": "e00c1044655585c5ded1948c3976cd9193939dbee20a522b7fb64dac152fc644",
+      "scripts/generate-api-docs.cjs": "4a824d4177086278de54f435dd899108d1380e47e6fdb98aa437209349555e2e",
+      "services/bookingExpiryService.ts": "1a32e91498ee190b5ea054240539e065ae88c7eee49834d2b15664bf81bdc9c7",
+      "services/bookingFinanceService.ts": "8c852ce3115f7e2c44a36e2a9c482083612a5008ad951a181c4fe8b0b2ee4b73",
+      "services/bookingService.ts": "6225ecb4cc655ec59f824c13cd42e02baa9a4bc36a1070b7c06e6204cab60508",
+      "services/busService.ts": "338c33fb3883dcb5e3d38d342222038fed4f6ca9f193a6e0ad7e5041c527ecde",
+      "services/clientBusService.ts": "9efc2eddc6a17048a567eb6d05b0910f4ffdd3605a85ab7108b68fe4e5a7e157",
+      "services/clientEmployeeService.ts": "48ce9c4d5ced830980fa3f471985ec2d57c230594eb4cea608c6df5e13413cf3",
+      "services/clientOrderService.ts": "b7aa988396293a67e5e41b8a85df80bad396b7fa9005b49fd315f798a45e0377",
+      "services/clientTripService.ts": "e270705cf06833dc339f6682336fbf60ee5bda5526b06b23f35af7b91123b1c4",
+      "services/clientUserService.ts": "faec7eec4243e9acc818aa13d5fb2628044d26c2ebb2cbacc9e84425e870cfb6",
+      "services/dashboardService.ts": "1c842b3cddb95399feed0ef57f7c53fc4c65d405fe7cf76254a97d2fd00d2f90",
+      "services/employeeService.ts": "40ab6ac2f7793eb720938ed698040fa7a2f399ab4215bd3abbfddc90e5fb9d75",
+      "services/orderService.ts": "667502659cc213ba4acc401534269df64ed1fdda46f063c0fba28568c9bc6f0e",
+      "services/paymentService.ts": "12d964980f001b050cd607f50c5e3d2ab34ad13d77584c9960eb002a4eed5642",
+      "services/seatService.ts": "1600dff504d1b75b6b059b7e956e7e4d961144c4ce63d8aca3cbb5eaf65b47f9",
+      "services/tripService.ts": "d672c3e6878d5bf59db48f51b7caf5d9d1c7bff0ba9279ace0c0903ac33ca6f0",
+      "services/userService.ts": "3fb8d1d5acb1ddb1ffbe9dbd72806d54fc4b6faa440481c23d8109661caa6a92"
+    }
+  }
+}

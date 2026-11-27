@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+@theme {
+  --color-brand-primary: #0E5E57;
+  --color-brand-dark: #0A443E;
+  --color-brand-deep: #083833;
+  --color-brand-light: #E3F1EC;
+  --color-brand-bg: #F4FAF8;
+  --color-brand-text: #132B27;
+  --color-brand-border: #D9ECE5;
+  --color-brand-muted: #A3CEC1;
+  --color-brand-accent: #84E1C6;
+}
+
+html { scroll-behavior: smooth; }
+
+::selection {
+  background-color: var(--color-brand-primary);
+  color: white;
+}

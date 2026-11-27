@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-11-06T08:05:51.178Z",
+  "baseOrigin": "http://127.0.0.1:3001",
+  "database": "sgu_booking_demo_verify_20261106",
+  "scope": "Demo seed smoke: public reads and login/session using only demo credentials; no business mutations.",
+  "total": 5,
+  "passed": 5,
+  "results": [
+    {
+      "name": "six future seeded trips",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "seeded ADMIN login/session",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "seeded CUSTOMER login/session",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "customer profile",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "customer denied admin users",
+      "status": 403,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "evidenceVersion": 1,
+  "recordedAt": "2026-11-06T15:04:29+07:00",
+  "scope": "Local isolated demo provisioning; runtime HTTP checks are recorded separately.",
+  "environment": {
+    "platform": "Windows / PowerShell",
+    "databaseEngine": "MySQL 8.0.46",
+    "executionNote": "The sandbox blocked child process creation. The recorded real-database commands succeeded with approved elevated local execution.",
+    "dockerTested": false
+  },
+  "observedRuns": [
+    {
+      "command": "node --test --test-isolation=none tests/demo.test.cjs",
+      "result": "PASS",
+      "tests": 11,
+      "failed": 0,
+      "databaseAccess": false
+    },
+    {
+      "command": "node scripts/demo.cjs --database sgu_booking_demo_verify_20261106 --no-start",
+      "attempt": "fresh database",
+      "result": "PASS: created the isolated database and seeded demonstration data"
+    },
+    {
+      "command": "node scripts/demo.cjs --database sgu_booking_demo_verify_20261106 --no-start",
+      "attempt": "repeat the same command",
+      "result": "PASS: reused the matching owned database without changing existing records"
+    },
+    {
+      "command": "node tests/demo-db.cjs",
+      "result": "PASS",
+      "verified": [
+        "ADMIN and CUSTOMER accounts have valid scrypt password hashes",
+        "The CUSTOMER account is linked to an active customer profile",
+        "Six trips depart in the future at initialization, with two buses, one employee and one confirmed history booking",
+        "All five CHECK constraints, the booking foreign key and the active-seat unique index reject invalid writes",
+        "The booking.tripId foreign key uses ON UPDATE RESTRICT",
+        "Repeating setup preserves an added record and the existing account password hash",
+        "An existing unowned demo database is refused and its sentinel record/table remain unchanged",
+        "The existing application database name is refused before provisioning"
+      ],
+      "retainedDatabases": [
+        "sgu_booking_demo_qa_1793952205259_4334c0",
+        "sgu_booking_demo_qa_1793952205259_4334c0_unowned"
+      ],
+      "databaseDeletionPerformed": false
+    }
+  ],
+  "sourceHashes": {
+    "algorithm": "SHA-256",
+    "encoding": "raw file bytes; no newline normalization",
+    "files": {
+      "scripts/demo.cjs": "84db306ce293fc78ebdc537caaf122f62b4d29dc49fdb9d1b6e1412bbaa052c9",
+      "tests/demo.test.cjs": "0d98c1e191f70f88f929df3792fad3df97f338564497147d754f8357209997a7",
+      "tests/demo-db.cjs": "9d7e22c1b3d2dd63d491881baa951391de0ea23dd97d9cfdd5c12292cb178725",
+      "prisma/schema.prisma": "4d7d05a0b00761bcd76ac0449eb41913ce851f9d353c9023d9d2f097aa5faf82",
+      "package-lock.json": "f1d2edb6194776b7bf87b9877161f040cfa3d939ec93ba682b7c9ee9d9c6cc55"
+    }
+  },
+  "demoSchema": {
+    "snapshotSha256": "39b538b1fe3a498b4fe174fc28eb5f3a865491048d42d90e980dcdf9ec9755ff",
+    "ownershipFingerprint": "4f27dc6d5b09fd5869badda31a6d9e0530e57f774f0943428e2d967f3d7e20b0",
+    "method": "db push into a newly created isolated database, then add compatible CHECK constraints",
+    "migrationHistoryModified": false
+  },
+  "limits": [
+    "The automatic npm ci branch was not exercised from an empty node_modules directory during these runs; dependencies were already present",
+    "This evidence validates local MySQL 8.0.46, not every supported MySQL/MariaDB release",
+    "This snapshot path does not prove that the historical migrate deploy sequence succeeds on a fresh database",
+    "This evidence does not claim a Docker build, production deployment, or a completed runtime browser test"
+  ]
+}

@@ -1,0 +1,2039 @@
+{
+  "runId": "20261106T130917322Z_6c733a",
+  "startedAt": "2026-11-06T13:09:17.350Z",
+  "timeZone": "Asia/Bangkok",
+  "passed": true,
+  "database": "sgu_booking_demo_race_1793970557349_0bd0ea",
+  "databaseRetained": true,
+  "baseUrl": "http://127.0.0.1:11054",
+  "runtime": {
+    "node": "v24.22.1",
+    "next": "16.3.5",
+    "serverMode": "development"
+  },
+  "source": {
+    "commit": "1956eb187b415ed2ace989882846e44ac182713c",
+    "workingTree": "M package.json\n?? tests/booking-concurrency-http.cjs",
+    "sha256": {
+      "package.json": "2ce394e4cd80b95207d80e9f6194f69be41e82f8769a80b65563ec381986d8bc",
+      "package-lock.json": "f1d2edb6194776b7bf87b9877161f040cfa3d939ec93ba682b7c9ee9d9c6cc55",
+      "next.config.ts": "6d5b81021decfccb9e49dc230dab7f895e339911b757c56e8d1e8ebe2911f2c5",
+      "proxy.ts": "aaa6978cb4e935103d225531e5103b4324790ff2d77ebda63b6d5b8adac738b2",
+      "instrumentation.ts": "4654a94e698fc663fb0fd1ab58f50baffefb836b44ac7381f8224b6919df6e35",
+      "prisma/schema.prisma": "4d7d05a0b00761bcd76ac0449eb41913ce851f9d353c9023d9d2f097aa5faf82",
+      "app/api/bookings/route.ts": "23637c8e3a21a8d713617a976fea5e10bc98488320e24f7b6bb8346e502ff730",
+      "services/bookingService.ts": "99d4d26155219008dfdd7e734c7f92dc520e31f82f518daacfee16a2bd9bb10c",
+      "lib/transaction.ts": "fd63aa5c92560e3bf3fd4101cbed8cfa1570a1c6303f16123446c5b9ccc82212",
+      "lib/admin-api.ts": "8e40cb6ae4626de4d0b7d46327859208c8ceebc4860a9f379abb7d3839ba5329",
+      "lib/guest-account.ts": "93c84a5136d3a67ae6dd6e167bb62d3d6f1dfa99730723ba725a68a80d012ff0",
+      "lib/password.ts": "45e202ca44b0b6c0ecbd91b5b3c12f9f52f6a42635e5ddcc57a18961ea0b811f",
+      "lib/session.ts": "25efc389c0e816ba01c30d018ab80787c9931a43b5ec181dbbeb619d56277b75",
+      "lib/seats.ts": "73bbec7600112d2ffb256aa6e33cdf8198e5949f9d417e36563f949812b860be",
+      "lib/request-origin.ts": "2f0fc09ba1fdcadf3d59401c77dc9e13c4729925a38a2f59379ef089f5b7f719",
+      "lib/validations/order.ts": "96299d2729e69f09df94ee851803d53ec0a9a774347685bcb82f229ae726c7a3",
+      "scripts/demo.cjs": "84db306ce293fc78ebdc537caaf122f62b4d29dc49fdb9d1b6e1412bbaa052c9",
+      "tests/booking-concurrency-http.cjs": "6b1d437a064bc84a8dd5a521b7a9eb9a6fb6f321c46983eba7e57b4fa100892f"
+    }
+  },
+  "scenarios": [
+    {
+      "index": 1,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:25.467Z",
+        "trip": {
+          "id": 8,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:25.460Z"
+        },
+        "bookings": [],
+        "userCount": 4,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 8,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 1 A",
+            "phone": "0900000002"
+          },
+          "startedAt": "2026-11-06T13:09:25.468Z",
+          "finishedAt": "2026-11-06T13:09:25.647Z",
+          "startMs": 8204.5445,
+          "endMs": 8383.7489,
+          "durationMs": 179.204,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 8,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 1 B",
+            "phone": "0900000003"
+          },
+          "startedAt": "2026-11-06T13:09:25.468Z",
+          "finishedAt": "2026-11-06T13:09:25.640Z",
+          "startMs": 8205.1264,
+          "endMs": 8377.3781,
+          "durationMs": 172.252,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-8-3EFFE8698F18DB2C",
+              "tripId": 8,
+              "passenger": {
+                "name": "Concurrent passenger 1 B",
+                "phone": "0900000003"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                4
+              ]
+            }
+          }
+        }
+      ],
+      "overlapMs": 172.252,
+      "after": {
+        "observedAt": "2026-11-06T13:09:25.651Z",
+        "trip": {
+          "id": 8,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:25.460Z"
+        },
+        "bookings": [
+          {
+            "id": 4,
+            "pnr": "NHAXE-8-3EFFE8698F18DB2C",
+            "tripId": 8,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "8:A01",
+            "passengerName": "Concurrent passenger 1 B",
+            "passengerPhone": "0900000003",
+            "userId": 5,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:25.631Z",
+            "expiresAt": "2026-11-06T13:14:25.601Z"
+          }
+        ],
+        "userCount": 5,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 8,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 1 A",
+          "phone": "0900000002"
+        },
+        "startedAt": "2026-11-06T13:09:25.651Z",
+        "finishedAt": "2026-11-06T13:09:25.803Z",
+        "startMs": 8388.4372,
+        "endMs": 8540.1622,
+        "durationMs": 151.725,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:25.807Z",
+        "trip": {
+          "id": 8,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:25.460Z"
+        },
+        "bookings": [
+          {
+            "id": 4,
+            "pnr": "NHAXE-8-3EFFE8698F18DB2C",
+            "tripId": 8,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "8:A01",
+            "passengerName": "Concurrent passenger 1 B",
+            "passengerPhone": "0900000003",
+            "userId": 5,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:25.631Z",
+            "expiresAt": "2026-11-06T13:14:25.601Z"
+          }
+        ],
+        "userCount": 5,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 2,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:25.819Z",
+        "trip": {
+          "id": 9,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:25.809Z"
+        },
+        "bookings": [],
+        "userCount": 5,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 9,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 2 A",
+            "phone": "0900000004"
+          },
+          "startedAt": "2026-11-06T13:09:25.819Z",
+          "finishedAt": "2026-11-06T13:09:26.007Z",
+          "startMs": 8556.2201,
+          "endMs": 8743.6789,
+          "durationMs": 187.459,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-9-264EDBBF6CD4818D",
+              "tripId": 9,
+              "passenger": {
+                "name": "Concurrent passenger 2 A",
+                "phone": "0900000004"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                5
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 9,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 2 B",
+            "phone": "0900000005"
+          },
+          "startedAt": "2026-11-06T13:09:25.820Z",
+          "finishedAt": "2026-11-06T13:09:26.014Z",
+          "startMs": 8556.9829,
+          "endMs": 8751.196,
+          "durationMs": 194.213,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 186.696,
+      "after": {
+        "observedAt": "2026-11-06T13:09:26.018Z",
+        "trip": {
+          "id": 9,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:25.809Z"
+        },
+        "bookings": [
+          {
+            "id": 5,
+            "pnr": "NHAXE-9-264EDBBF6CD4818D",
+            "tripId": 9,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "9:A01",
+            "passengerName": "Concurrent passenger 2 A",
+            "passengerPhone": "0900000004",
+            "userId": 6,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:25.994Z",
+            "expiresAt": "2026-11-06T13:14:25.980Z"
+          }
+        ],
+        "userCount": 6,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 9,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 2 B",
+          "phone": "0900000005"
+        },
+        "startedAt": "2026-11-06T13:09:26.018Z",
+        "finishedAt": "2026-11-06T13:09:26.120Z",
+        "startMs": 8755.0841,
+        "endMs": 8857.2776,
+        "durationMs": 102.193,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:26.124Z",
+        "trip": {
+          "id": 9,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:25.809Z"
+        },
+        "bookings": [
+          {
+            "id": 5,
+            "pnr": "NHAXE-9-264EDBBF6CD4818D",
+            "tripId": 9,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "9:A01",
+            "passengerName": "Concurrent passenger 2 A",
+            "passengerPhone": "0900000004",
+            "userId": 6,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:25.994Z",
+            "expiresAt": "2026-11-06T13:14:25.980Z"
+          }
+        ],
+        "userCount": 6,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 3,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:26.135Z",
+        "trip": {
+          "id": 10,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.126Z"
+        },
+        "bookings": [],
+        "userCount": 6,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 10,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 3 A",
+            "phone": "0900000006"
+          },
+          "startedAt": "2026-11-06T13:09:26.136Z",
+          "finishedAt": "2026-11-06T13:09:26.280Z",
+          "startMs": 8872.5785,
+          "endMs": 9016.8507,
+          "durationMs": 144.272,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-10-718502665D5DBD3F",
+              "tripId": 10,
+              "passenger": {
+                "name": "Concurrent passenger 3 A",
+                "phone": "0900000006"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                6
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 10,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 3 B",
+            "phone": "0900000007"
+          },
+          "startedAt": "2026-11-06T13:09:26.136Z",
+          "finishedAt": "2026-11-06T13:09:26.286Z",
+          "startMs": 8873.2024,
+          "endMs": 9023.1422,
+          "durationMs": 149.94,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 143.648,
+      "after": {
+        "observedAt": "2026-11-06T13:09:26.290Z",
+        "trip": {
+          "id": 10,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.126Z"
+        },
+        "bookings": [
+          {
+            "id": 6,
+            "pnr": "NHAXE-10-718502665D5DBD3F",
+            "tripId": 10,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "10:A01",
+            "passengerName": "Concurrent passenger 3 A",
+            "passengerPhone": "0900000006",
+            "userId": 7,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:26.270Z",
+            "expiresAt": "2026-11-06T13:14:26.252Z"
+          }
+        ],
+        "userCount": 7,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 10,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 3 B",
+          "phone": "0900000007"
+        },
+        "startedAt": "2026-11-06T13:09:26.290Z",
+        "finishedAt": "2026-11-06T13:09:26.393Z",
+        "startMs": 9027.4286,
+        "endMs": 9129.7601,
+        "durationMs": 102.332,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:26.397Z",
+        "trip": {
+          "id": 10,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.126Z"
+        },
+        "bookings": [
+          {
+            "id": 6,
+            "pnr": "NHAXE-10-718502665D5DBD3F",
+            "tripId": 10,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "10:A01",
+            "passengerName": "Concurrent passenger 3 A",
+            "passengerPhone": "0900000006",
+            "userId": 7,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:26.270Z",
+            "expiresAt": "2026-11-06T13:14:26.252Z"
+          }
+        ],
+        "userCount": 7,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 4,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:26.407Z",
+        "trip": {
+          "id": 11,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.399Z"
+        },
+        "bookings": [],
+        "userCount": 7,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 11,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 4 A",
+            "phone": "0900000008"
+          },
+          "startedAt": "2026-11-06T13:09:26.407Z",
+          "finishedAt": "2026-11-06T13:09:26.570Z",
+          "startMs": 9144.0003,
+          "endMs": 9306.9044,
+          "durationMs": 162.904,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 11,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 4 B",
+            "phone": "0900000009"
+          },
+          "startedAt": "2026-11-06T13:09:26.408Z",
+          "finishedAt": "2026-11-06T13:09:26.564Z",
+          "startMs": 9144.6338,
+          "endMs": 9301.3393,
+          "durationMs": 156.706,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-11-DC1B87C7781C4C08",
+              "tripId": 11,
+              "passenger": {
+                "name": "Concurrent passenger 4 B",
+                "phone": "0900000009"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                7
+              ]
+            }
+          }
+        }
+      ],
+      "overlapMs": 156.706,
+      "after": {
+        "observedAt": "2026-11-06T13:09:26.573Z",
+        "trip": {
+          "id": 11,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.399Z"
+        },
+        "bookings": [
+          {
+            "id": 7,
+            "pnr": "NHAXE-11-DC1B87C7781C4C08",
+            "tripId": 11,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "11:A01",
+            "passengerName": "Concurrent passenger 4 B",
+            "passengerPhone": "0900000009",
+            "userId": 8,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:26.555Z",
+            "expiresAt": "2026-11-06T13:14:26.540Z"
+          }
+        ],
+        "userCount": 8,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 11,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 4 A",
+          "phone": "0900000008"
+        },
+        "startedAt": "2026-11-06T13:09:26.574Z",
+        "finishedAt": "2026-11-06T13:09:26.675Z",
+        "startMs": 9310.6206,
+        "endMs": 9412.3594,
+        "durationMs": 101.739,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:26.679Z",
+        "trip": {
+          "id": 11,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.399Z"
+        },
+        "bookings": [
+          {
+            "id": 7,
+            "pnr": "NHAXE-11-DC1B87C7781C4C08",
+            "tripId": 11,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "11:A01",
+            "passengerName": "Concurrent passenger 4 B",
+            "passengerPhone": "0900000009",
+            "userId": 8,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:26.555Z",
+            "expiresAt": "2026-11-06T13:14:26.540Z"
+          }
+        ],
+        "userCount": 8,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 5,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:26.692Z",
+        "trip": {
+          "id": 12,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.681Z"
+        },
+        "bookings": [],
+        "userCount": 8,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 12,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 5 A",
+            "phone": "0900000010"
+          },
+          "startedAt": "2026-11-06T13:09:26.692Z",
+          "finishedAt": "2026-11-06T13:09:26.842Z",
+          "startMs": 9429.2139,
+          "endMs": 9579.1018,
+          "durationMs": 149.888,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 12,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 5 B",
+            "phone": "0900000011"
+          },
+          "startedAt": "2026-11-06T13:09:26.693Z",
+          "finishedAt": "2026-11-06T13:09:26.835Z",
+          "startMs": 9429.6779,
+          "endMs": 9572.299,
+          "durationMs": 142.621,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-12-503159B94D7F5951",
+              "tripId": 12,
+              "passenger": {
+                "name": "Concurrent passenger 5 B",
+                "phone": "0900000011"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                8
+              ]
+            }
+          }
+        }
+      ],
+      "overlapMs": 142.621,
+      "after": {
+        "observedAt": "2026-11-06T13:09:26.846Z",
+        "trip": {
+          "id": 12,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.681Z"
+        },
+        "bookings": [
+          {
+            "id": 8,
+            "pnr": "NHAXE-12-503159B94D7F5951",
+            "tripId": 12,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "12:A01",
+            "passengerName": "Concurrent passenger 5 B",
+            "passengerPhone": "0900000011",
+            "userId": 9,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:26.824Z",
+            "expiresAt": "2026-11-06T13:14:26.810Z"
+          }
+        ],
+        "userCount": 9,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 12,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 5 A",
+          "phone": "0900000010"
+        },
+        "startedAt": "2026-11-06T13:09:26.846Z",
+        "finishedAt": "2026-11-06T13:09:26.956Z",
+        "startMs": 9582.8482,
+        "endMs": 9692.9211,
+        "durationMs": 110.073,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:26.959Z",
+        "trip": {
+          "id": 12,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.681Z"
+        },
+        "bookings": [
+          {
+            "id": 8,
+            "pnr": "NHAXE-12-503159B94D7F5951",
+            "tripId": 12,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "12:A01",
+            "passengerName": "Concurrent passenger 5 B",
+            "passengerPhone": "0900000011",
+            "userId": 9,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:26.824Z",
+            "expiresAt": "2026-11-06T13:14:26.810Z"
+          }
+        ],
+        "userCount": 9,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 6,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:26.969Z",
+        "trip": {
+          "id": 13,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.961Z"
+        },
+        "bookings": [],
+        "userCount": 9,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 13,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 6 A",
+            "phone": "0900000012"
+          },
+          "startedAt": "2026-11-06T13:09:26.969Z",
+          "finishedAt": "2026-11-06T13:09:27.133Z",
+          "startMs": 9706.1941,
+          "endMs": 9869.9205,
+          "durationMs": 163.726,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-13-6813DE55AB508062",
+              "tripId": 13,
+              "passenger": {
+                "name": "Concurrent passenger 6 A",
+                "phone": "0900000012"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                9
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 13,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 6 B",
+            "phone": "0900000013"
+          },
+          "startedAt": "2026-11-06T13:09:26.970Z",
+          "finishedAt": "2026-11-06T13:09:27.139Z",
+          "startMs": 9706.9341,
+          "endMs": 9876.3439,
+          "durationMs": 169.41,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 162.986,
+      "after": {
+        "observedAt": "2026-11-06T13:09:27.143Z",
+        "trip": {
+          "id": 13,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.961Z"
+        },
+        "bookings": [
+          {
+            "id": 9,
+            "pnr": "NHAXE-13-6813DE55AB508062",
+            "tripId": 13,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "13:A01",
+            "passengerName": "Concurrent passenger 6 A",
+            "passengerPhone": "0900000012",
+            "userId": 10,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.124Z",
+            "expiresAt": "2026-11-06T13:14:27.110Z"
+          }
+        ],
+        "userCount": 10,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 13,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 6 B",
+          "phone": "0900000013"
+        },
+        "startedAt": "2026-11-06T13:09:27.143Z",
+        "finishedAt": "2026-11-06T13:09:27.253Z",
+        "startMs": 9880.0059,
+        "endMs": 9990.029,
+        "durationMs": 110.023,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:27.257Z",
+        "trip": {
+          "id": 13,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:26.961Z"
+        },
+        "bookings": [
+          {
+            "id": 9,
+            "pnr": "NHAXE-13-6813DE55AB508062",
+            "tripId": 13,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "13:A01",
+            "passengerName": "Concurrent passenger 6 A",
+            "passengerPhone": "0900000012",
+            "userId": 10,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.124Z",
+            "expiresAt": "2026-11-06T13:14:27.110Z"
+          }
+        ],
+        "userCount": 10,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 7,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:27.269Z",
+        "trip": {
+          "id": 14,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.258Z"
+        },
+        "bookings": [],
+        "userCount": 10,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 14,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 7 A",
+            "phone": "0900000014"
+          },
+          "startedAt": "2026-11-06T13:09:27.269Z",
+          "finishedAt": "2026-11-06T13:09:27.422Z",
+          "startMs": 10005.6847,
+          "endMs": 10158.8285,
+          "durationMs": 153.144,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-14-B8AFAABC6C5B3D70",
+              "tripId": 14,
+              "passenger": {
+                "name": "Concurrent passenger 7 A",
+                "phone": "0900000014"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                10
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 14,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 7 B",
+            "phone": "0900000015"
+          },
+          "startedAt": "2026-11-06T13:09:27.269Z",
+          "finishedAt": "2026-11-06T13:09:27.427Z",
+          "startMs": 10006.1683,
+          "endMs": 10164.1528,
+          "durationMs": 157.985,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 152.66,
+      "after": {
+        "observedAt": "2026-11-06T13:09:27.430Z",
+        "trip": {
+          "id": 14,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.258Z"
+        },
+        "bookings": [
+          {
+            "id": 10,
+            "pnr": "NHAXE-14-B8AFAABC6C5B3D70",
+            "tripId": 14,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "14:A01",
+            "passengerName": "Concurrent passenger 7 A",
+            "passengerPhone": "0900000014",
+            "userId": 11,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.415Z",
+            "expiresAt": "2026-11-06T13:14:27.402Z"
+          }
+        ],
+        "userCount": 11,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 14,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 7 B",
+          "phone": "0900000015"
+        },
+        "startedAt": "2026-11-06T13:09:27.430Z",
+        "finishedAt": "2026-11-06T13:09:27.536Z",
+        "startMs": 10167.4126,
+        "endMs": 10273.2237,
+        "durationMs": 105.811,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:27.540Z",
+        "trip": {
+          "id": 14,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.258Z"
+        },
+        "bookings": [
+          {
+            "id": 10,
+            "pnr": "NHAXE-14-B8AFAABC6C5B3D70",
+            "tripId": 14,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "14:A01",
+            "passengerName": "Concurrent passenger 7 A",
+            "passengerPhone": "0900000014",
+            "userId": 11,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.415Z",
+            "expiresAt": "2026-11-06T13:14:27.402Z"
+          }
+        ],
+        "userCount": 11,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 8,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:27.554Z",
+        "trip": {
+          "id": 15,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.541Z"
+        },
+        "bookings": [],
+        "userCount": 11,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 15,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 8 A",
+            "phone": "0900000016"
+          },
+          "startedAt": "2026-11-06T13:09:27.554Z",
+          "finishedAt": "2026-11-06T13:09:27.675Z",
+          "startMs": 10290.7265,
+          "endMs": 10412.0959,
+          "durationMs": 121.369,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-15-DE5E335D2FE89727",
+              "tripId": 15,
+              "passenger": {
+                "name": "Concurrent passenger 8 A",
+                "phone": "0900000016"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                11
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 15,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 8 B",
+            "phone": "0900000017"
+          },
+          "startedAt": "2026-11-06T13:09:27.554Z",
+          "finishedAt": "2026-11-06T13:09:27.683Z",
+          "startMs": 10291.2539,
+          "endMs": 10420.436,
+          "durationMs": 129.182,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 120.842,
+      "after": {
+        "observedAt": "2026-11-06T13:09:27.687Z",
+        "trip": {
+          "id": 15,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.541Z"
+        },
+        "bookings": [
+          {
+            "id": 11,
+            "pnr": "NHAXE-15-DE5E335D2FE89727",
+            "tripId": 15,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "15:A01",
+            "passengerName": "Concurrent passenger 8 A",
+            "passengerPhone": "0900000016",
+            "userId": 12,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.664Z",
+            "expiresAt": "2026-11-06T13:14:27.653Z"
+          }
+        ],
+        "userCount": 12,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 15,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 8 B",
+          "phone": "0900000017"
+        },
+        "startedAt": "2026-11-06T13:09:27.688Z",
+        "finishedAt": "2026-11-06T13:09:27.787Z",
+        "startMs": 10424.615,
+        "endMs": 10524.3626,
+        "durationMs": 99.748,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:27.791Z",
+        "trip": {
+          "id": 15,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.541Z"
+        },
+        "bookings": [
+          {
+            "id": 11,
+            "pnr": "NHAXE-15-DE5E335D2FE89727",
+            "tripId": 15,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "15:A01",
+            "passengerName": "Concurrent passenger 8 A",
+            "passengerPhone": "0900000016",
+            "userId": 12,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.664Z",
+            "expiresAt": "2026-11-06T13:14:27.653Z"
+          }
+        ],
+        "userCount": 12,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 9,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:27.803Z",
+        "trip": {
+          "id": 16,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.792Z"
+        },
+        "bookings": [],
+        "userCount": 12,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 16,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 9 A",
+            "phone": "0900000018"
+          },
+          "startedAt": "2026-11-06T13:09:27.803Z",
+          "finishedAt": "2026-11-06T13:09:27.920Z",
+          "startMs": 10540.4166,
+          "endMs": 10657.1222,
+          "durationMs": 116.706,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-16-DF7D372C1141869B",
+              "tripId": 16,
+              "passenger": {
+                "name": "Concurrent passenger 9 A",
+                "phone": "0900000018"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                12
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 16,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 9 B",
+            "phone": "0900000019"
+          },
+          "startedAt": "2026-11-06T13:09:27.804Z",
+          "finishedAt": "2026-11-06T13:09:27.940Z",
+          "startMs": 10540.8816,
+          "endMs": 10676.8177,
+          "durationMs": 135.936,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 116.241,
+      "after": {
+        "observedAt": "2026-11-06T13:09:27.943Z",
+        "trip": {
+          "id": 16,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.792Z"
+        },
+        "bookings": [
+          {
+            "id": 12,
+            "pnr": "NHAXE-16-DF7D372C1141869B",
+            "tripId": 16,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "16:A01",
+            "passengerName": "Concurrent passenger 9 A",
+            "passengerPhone": "0900000018",
+            "userId": 13,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.912Z",
+            "expiresAt": "2026-11-06T13:14:27.902Z"
+          }
+        ],
+        "userCount": 13,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 16,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 9 B",
+          "phone": "0900000019"
+        },
+        "startedAt": "2026-11-06T13:09:27.943Z",
+        "finishedAt": "2026-11-06T13:09:28.046Z",
+        "startMs": 10680.3939,
+        "endMs": 10783.3196,
+        "durationMs": 102.926,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:28.051Z",
+        "trip": {
+          "id": 16,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:27.792Z"
+        },
+        "bookings": [
+          {
+            "id": 12,
+            "pnr": "NHAXE-16-DF7D372C1141869B",
+            "tripId": 16,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "16:A01",
+            "passengerName": "Concurrent passenger 9 A",
+            "passengerPhone": "0900000018",
+            "userId": 13,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:27.912Z",
+            "expiresAt": "2026-11-06T13:14:27.902Z"
+          }
+        ],
+        "userCount": 13,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 10,
+      "kind": "same-seat",
+      "before": {
+        "observedAt": "2026-11-06T13:09:28.063Z",
+        "trip": {
+          "id": 17,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:28.053Z"
+        },
+        "bookings": [],
+        "userCount": 13,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 17,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 10 A",
+            "phone": "0900000020"
+          },
+          "startedAt": "2026-11-06T13:09:28.063Z",
+          "finishedAt": "2026-11-06T13:09:28.248Z",
+          "startMs": 10800.5202,
+          "endMs": 10984.6045,
+          "durationMs": 184.084,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 17,
+            "seats": [
+              "A01"
+            ],
+            "fullName": "Concurrent passenger 10 B",
+            "phone": "0900000021"
+          },
+          "startedAt": "2026-11-06T13:09:28.064Z",
+          "finishedAt": "2026-11-06T13:09:28.240Z",
+          "startMs": 10801.1157,
+          "endMs": 10976.6963,
+          "durationMs": 175.581,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-17-8AAAF1E595E42C24",
+              "tripId": 17,
+              "passenger": {
+                "name": "Concurrent passenger 10 B",
+                "phone": "0900000021"
+              },
+              "seats": [
+                "A01"
+              ],
+              "totalPrice": 100000,
+              "bookingIds": [
+                13
+              ]
+            }
+          }
+        }
+      ],
+      "overlapMs": 175.581,
+      "after": {
+        "observedAt": "2026-11-06T13:09:28.251Z",
+        "trip": {
+          "id": 17,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:28.053Z"
+        },
+        "bookings": [
+          {
+            "id": 13,
+            "pnr": "NHAXE-17-8AAAF1E595E42C24",
+            "tripId": 17,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "17:A01",
+            "passengerName": "Concurrent passenger 10 B",
+            "passengerPhone": "0900000021",
+            "userId": 14,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:28.230Z",
+            "expiresAt": "2026-11-06T13:14:28.216Z"
+          }
+        ],
+        "userCount": 14,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 17,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 10 A",
+          "phone": "0900000020"
+        },
+        "startedAt": "2026-11-06T13:09:28.252Z",
+        "finishedAt": "2026-11-06T13:09:28.354Z",
+        "startMs": 10988.5964,
+        "endMs": 11090.6137,
+        "durationMs": 102.017,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:28.357Z",
+        "trip": {
+          "id": 17,
+          "capacity": 22,
+          "availableSeats": 21,
+          "price": 100000,
+          "time": "2026-11-07T13:09:28.053Z"
+        },
+        "bookings": [
+          {
+            "id": 13,
+            "pnr": "NHAXE-17-8AAAF1E595E42C24",
+            "tripId": 17,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "17:A01",
+            "passengerName": "Concurrent passenger 10 B",
+            "passengerPhone": "0900000021",
+            "userId": 14,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:28.230Z",
+            "expiresAt": "2026-11-06T13:14:28.216Z"
+          }
+        ],
+        "userCount": 14,
+        "holdCount": 0
+      },
+      "passed": true
+    },
+    {
+      "index": 11,
+      "kind": "overlapping-multiple-seats",
+      "before": {
+        "observedAt": "2026-11-06T13:09:28.368Z",
+        "trip": {
+          "id": 18,
+          "capacity": 22,
+          "availableSeats": 22,
+          "price": 100000,
+          "time": "2026-11-07T13:09:28.359Z"
+        },
+        "bookings": [],
+        "userCount": 14,
+        "holdCount": 0
+      },
+      "requests": [
+        {
+          "label": "A",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 18,
+            "seats": [
+              "A01",
+              "A02"
+            ],
+            "fullName": "Concurrent passenger 11 A",
+            "phone": "0900000022"
+          },
+          "startedAt": "2026-11-06T13:09:28.368Z",
+          "finishedAt": "2026-11-06T13:09:28.547Z",
+          "startMs": 11105.4346,
+          "endMs": 11283.719,
+          "durationMs": 178.284,
+          "status": 201,
+          "body": {
+            "success": true,
+            "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+            "data": {
+              "pnr": "NHAXE-18-C6E28EED0B309666",
+              "tripId": 18,
+              "passenger": {
+                "name": "Concurrent passenger 11 A",
+                "phone": "0900000022"
+              },
+              "seats": [
+                "A01",
+                "A02"
+              ],
+              "totalPrice": 200000,
+              "bookingIds": [
+                14,
+                15
+              ]
+            }
+          }
+        },
+        {
+          "label": "B",
+          "method": "POST",
+          "path": "/api/bookings",
+          "payload": {
+            "tripId": 18,
+            "seats": [
+              "A01",
+              "A03"
+            ],
+            "fullName": "Concurrent passenger 11 B",
+            "phone": "0900000023"
+          },
+          "startedAt": "2026-11-06T13:09:28.369Z",
+          "finishedAt": "2026-11-06T13:09:28.557Z",
+          "startMs": 11105.9585,
+          "endMs": 11293.7004,
+          "durationMs": 187.742,
+          "status": 409,
+          "body": {
+            "success": false,
+            "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+          }
+        }
+      ],
+      "overlapMs": 177.76,
+      "after": {
+        "observedAt": "2026-11-06T13:09:28.561Z",
+        "trip": {
+          "id": 18,
+          "capacity": 22,
+          "availableSeats": 20,
+          "price": 100000,
+          "time": "2026-11-07T13:09:28.359Z"
+        },
+        "bookings": [
+          {
+            "id": 14,
+            "pnr": "NHAXE-18-C6E28EED0B309666",
+            "tripId": 18,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "18:A01",
+            "passengerName": "Concurrent passenger 11 A",
+            "passengerPhone": "0900000022",
+            "userId": 15,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:28.531Z",
+            "expiresAt": "2026-11-06T13:14:28.519Z"
+          },
+          {
+            "id": 15,
+            "pnr": "NHAXE-18-C6E28EED0B309666",
+            "tripId": 18,
+            "seatNumber": "A02",
+            "status": "PENDING",
+            "activeSeat": "18:A02",
+            "passengerName": "Concurrent passenger 11 A",
+            "passengerPhone": "0900000022",
+            "userId": 15,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:28.534Z",
+            "expiresAt": "2026-11-06T13:14:28.519Z"
+          }
+        ],
+        "userCount": 15,
+        "holdCount": 0
+      },
+      "replay": {
+        "label": "loser-replay",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 18,
+          "seats": [
+            "A01",
+            "A03"
+          ],
+          "fullName": "Concurrent passenger 11 B",
+          "phone": "0900000023"
+        },
+        "startedAt": "2026-11-06T13:09:28.561Z",
+        "finishedAt": "2026-11-06T13:09:28.679Z",
+        "startMs": 11297.7816,
+        "endMs": 11415.7102,
+        "durationMs": 117.929,
+        "status": 409,
+        "body": {
+          "success": false,
+          "message": "Ghế A01 đã được đặt hoặc đang được giữ. Vui lòng chọn ghế khác."
+        }
+      },
+      "afterReplay": {
+        "observedAt": "2026-11-06T13:09:28.683Z",
+        "trip": {
+          "id": 18,
+          "capacity": 22,
+          "availableSeats": 20,
+          "price": 100000,
+          "time": "2026-11-07T13:09:28.359Z"
+        },
+        "bookings": [
+          {
+            "id": 14,
+            "pnr": "NHAXE-18-C6E28EED0B309666",
+            "tripId": 18,
+            "seatNumber": "A01",
+            "status": "PENDING",
+            "activeSeat": "18:A01",
+            "passengerName": "Concurrent passenger 11 A",
+            "passengerPhone": "0900000022",
+            "userId": 15,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:28.531Z",
+            "expiresAt": "2026-11-06T13:14:28.519Z"
+          },
+          {
+            "id": 15,
+            "pnr": "NHAXE-18-C6E28EED0B309666",
+            "tripId": 18,
+            "seatNumber": "A02",
+            "status": "PENDING",
+            "activeSeat": "18:A02",
+            "passengerName": "Concurrent passenger 11 A",
+            "passengerPhone": "0900000022",
+            "userId": 15,
+            "totalPrice": 100000,
+            "createdAt": "2026-11-06T13:09:28.534Z",
+            "expiresAt": "2026-11-06T13:14:28.519Z"
+          }
+        ],
+        "userCount": 15,
+        "holdCount": 0
+      },
+      "passed": true
+    }
+  ],
+  "isolation": {
+    "applicationDatabaseTargeted": false,
+    "historicalMigrationsExecuted": false,
+    "schema": "isolated demo snapshot with five CHECK constraints",
+    "bookingTripForeignKeyUpdateRule": "RESTRICT"
+  },
+  "databaseMetadata": {
+    "version": "8.0.46",
+    "defaultIsolation": "REPEATABLE-READ",
+    "tables": [
+      {
+        "tableName": "booking",
+        "engine": "InnoDB"
+      },
+      {
+        "tableName": "seathold",
+        "engine": "InnoDB"
+      },
+      {
+        "tableName": "trip",
+        "engine": "InnoDB"
+      },
+      {
+        "tableName": "user",
+        "engine": "InnoDB"
+      }
+    ],
+    "uniqueSeat": [
+      {
+        "indexName": "booking_activeSeat_key",
+        "nonUnique": "0",
+        "columnName": "activeSeat"
+      }
+    ],
+    "checks": [
+      {
+        "name": "booking_active_seat_check"
+      },
+      {
+        "name": "booking_integer_vnd_check"
+      },
+      {
+        "name": "booking_status_check"
+      },
+      {
+        "name": "trip_integer_vnd_check"
+      },
+      {
+        "name": "trip_seat_counts_check"
+      }
+    ],
+    "foreignKey": [
+      {
+        "updateRule": "RESTRICT"
+      }
+    ]
+  },
+  "control": {
+    "before": {
+      "observedAt": "2026-11-06T13:09:25.150Z",
+      "trip": {
+        "id": 7,
+        "capacity": 22,
+        "availableSeats": 22,
+        "price": 100000,
+        "time": "2026-11-07T13:09:25.130Z"
+      },
+      "bookings": [],
+      "userCount": 2,
+      "holdCount": 0
+    },
+    "requests": [
+      {
+        "label": "control-1",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 7,
+          "seats": [
+            "A01"
+          ],
+          "fullName": "Concurrent passenger 100 A",
+          "phone": "0900000200"
+        },
+        "startedAt": "2026-11-06T13:09:25.150Z",
+        "finishedAt": "2026-11-06T13:09:25.316Z",
+        "startMs": 7886.9836,
+        "endMs": 8052.5486,
+        "durationMs": 165.565,
+        "status": 201,
+        "body": {
+          "success": true,
+          "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+          "data": {
+            "pnr": "NHAXE-7-B32EF02CB2E62906",
+            "tripId": 7,
+            "passenger": {
+              "name": "Concurrent passenger 100 A",
+              "phone": "0900000200"
+            },
+            "seats": [
+              "A01"
+            ],
+            "totalPrice": 100000,
+            "bookingIds": [
+              2
+            ]
+          }
+        }
+      },
+      {
+        "label": "control-2",
+        "method": "POST",
+        "path": "/api/bookings",
+        "payload": {
+          "tripId": 7,
+          "seats": [
+            "A02"
+          ],
+          "fullName": "Concurrent passenger 101 A",
+          "phone": "0900000202"
+        },
+        "startedAt": "2026-11-06T13:09:25.316Z",
+        "finishedAt": "2026-11-06T13:09:25.453Z",
+        "startMs": 8052.6229,
+        "endMs": 8190.0163,
+        "durationMs": 137.393,
+        "status": 201,
+        "body": {
+          "success": true,
+          "message": "Đã ghi nhận đặt chỗ, chờ thanh toán.",
+          "data": {
+            "pnr": "NHAXE-7-4E63DE6F5275DFCA",
+            "tripId": 7,
+            "passenger": {
+              "name": "Concurrent passenger 101 A",
+              "phone": "0900000202"
+            },
+            "seats": [
+              "A02"
+            ],
+            "totalPrice": 100000,
+            "bookingIds": [
+              3
+            ]
+          }
+        }
+      }
+    ],
+    "after": {
+      "observedAt": "2026-11-06T13:09:25.458Z",
+      "trip": {
+        "id": 7,
+        "capacity": 22,
+        "availableSeats": 20,
+        "price": 100000,
+        "time": "2026-11-07T13:09:25.130Z"
+      },
+      "bookings": [
+        {
+          "id": 2,
+          "pnr": "NHAXE-7-B32EF02CB2E62906",
+          "tripId": 7,
+          "seatNumber": "A01",
+          "status": "PENDING",
+          "activeSeat": "7:A01",
+          "passengerName": "Concurrent passenger 100 A",
+          "passengerPhone": "0900000200",
+          "userId": 3,
+          "totalPrice": 100000,
+          "createdAt": "2026-11-06T13:09:25.298Z",
+          "expiresAt": "2026-11-06T13:14:25.277Z"
+        },
+        {
+          "id": 3,
+          "pnr": "NHAXE-7-4E63DE6F5275DFCA",
+          "tripId": 7,
+          "seatNumber": "A02",
+          "status": "PENDING",
+          "activeSeat": "7:A02",
+          "passengerName": "Concurrent passenger 101 A",
+          "passengerPhone": "0900000202",
+          "userId": 4,
+          "totalPrice": 100000,
+          "createdAt": "2026-11-06T13:09:25.444Z",
+          "expiresAt": "2026-11-06T13:14:25.433Z"
+        }
+      ],
+      "userCount": 4,
+      "holdCount": 0
+    },
+    "passed": true
+  },
+  "finishedAt": "2026-11-06T13:09:29.099Z",
+  "environmentFileUnchanged": true
+}

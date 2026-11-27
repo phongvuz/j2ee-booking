@@ -1,0 +1,63 @@
+{
+  "exitCode": 0,
+  "recordedAt": "2026-11-06T08:04:35.290Z",
+  "baseOrigin": "http://127.0.0.1:3001",
+  "node": "v24.22.1",
+  "scope": "Read-only HTTP header, origin and preflight checks; no security certification or database write coverage.",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "results": [
+    {
+      "name": "same-origin OpenAPI read",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "public cross-origin read grants no CORS access",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "untrusted preflight rejected",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "name": "untrusted login mutation rejected",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "name": "sibling-site mutation without Origin rejected",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "name": "opaque-origin mutation rejected",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "name": "same-origin preflight reaches route",
+      "status": 204,
+      "passed": true
+    },
+    {
+      "name": "missing-Origin nonbrowser read remains available",
+      "status": 200,
+      "passed": true
+    }
+  ],
+  "environment": "Isolated local Next.js development server at 127.0.0.1:3001; no application database writes by these checks.",
+  "sourceState": "Working tree; hashes are files present immediately after the observed HTTP run.",
+  "sourceSha256": {
+    "proxy.ts": "aaa6978cb4e935103d225531e5103b4324790ff2d77ebda63b6d5b8adac738b2",
+    "lib/request-origin.ts": "2f0fc09ba1fdcadf3d59401c77dc9e13c4729925a38a2f59379ef089f5b7f719",
+    "lib/security-headers.ts": "f2c13c07841864ae7e16638cb48dec9ba09b29caabda56bfb8b6ebcaabaddd53",
+    "next.config.ts": "6d5b81021decfccb9e49dc230dab7f895e339911b757c56e8d1e8ebe2911f2c5",
+    "scripts/check-security-http.cjs": "13a899deca2af45f4e928054b9c1da723aebfcdc51ea58168075d7560b821bac",
+    "app/api/openapi/route.ts": "399a6fca3ddc82788ef8539dce0e80d0d5701c0f9c595cea7ba58cc9b71c8082",
+    "documentation/api/openapi.json": "9ade9bc2297c1447697a550538deb7148cd38d4ea56da1a9e612341d872bde65"
+  }
+}
