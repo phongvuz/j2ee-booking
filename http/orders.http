@@ -1,0 +1,84 @@
+### Chi tiết đơn (đổi cổng nếu bạn chạy cổng khác 8080)
+GET http://localhost:8080/api/v1/orders/1
+
+### Danh sách đơn (phân trang)
+GET http://localhost:8080/api/v1/orders?page=0&size=10
+
+### Lọc theo trạng thái
+GET http://localhost:8080/api/v1/orders?status=PAID
+
+### Tìm theo từ khóa (PNR, tên hoặc SĐT)
+GET http://localhost:8080/api/v1/orders?keyword=nguyen
+
+### Tra cứu vé công khai (cần cả PNR và SĐT)
+GET http://localhost:8080/api/v1/orders/search?pnr=NHAXE-1A2B3C&phone=0901112223
+
+### Lỗi mong đợi: tra cứu sai SĐT -> 404
+GET http://localhost:8080/api/v1/orders/search?pnr=NHAXE-1A2B3C&phone=0000000000
+
+### Lỗi mong đợi: status sai -> 400
+GET http://localhost:8080/api/v1/orders?status=ABC
+
+### ===================== GHI (đợt 2) =====================
+
+### Đặt vé (user 2 = client01). Ghế 1B1, 1B2 của chuyến 1 đang trống
+POST http://localhost:8080/api/v1/orders
+Content-Type: application/json
+
+{
+  "tripId": 1,
+  "userId": 2,
+  "customerName": "Nguyễn Văn A",
+  "customerPhone": "0901112223",
+  "seats": ["1B1", "1B2"]
+}
+
+### Lỗi mong đợi 409: ghế 1A1 đã có người đặt (đơn mẫu)
+POST http://localhost:8080/api/v1/orders
+Content-Type: application/json
+
+{
+  "tripId": 1,
+  "userId": 2,
+  "customerName": "Nguyễn Văn A",
+  "customerPhone": "0901112223",
+  "seats": ["1A1"]
+}
+
+### Lỗi mong đợi 400: quá 5 ghế
+POST http://localhost:8080/api/v1/orders
+Content-Type: application/json
+
+{
+  "tripId": 1,
+  "userId": 2,
+  "customerName": "Nguyễn Văn A",
+  "customerPhone": "0901112223",
+  "seats": ["1C1", "1C2", "1C3", "1C4", "1C5", "1C6"]
+}
+
+### Sửa thông tin khách (đổi 1 thành id đơn của bạn)
+PUT http://localhost:8080/api/v1/orders/1
+Content-Type: application/json
+
+{
+  "customerName": "Nguyễn Văn A (đã sửa)",
+  "customerPhone": "0901112223"
+}
+
+### Thanh toán (đơn phải đang PENDING, đổi id cho đúng)
+PATCH http://localhost:8080/api/v1/orders/2/pay
+
+### Hủy đơn (xóa mềm)
+DELETE http://localhost:8080/api/v1/orders/2
+
+### ===================== SƠ ĐỒ GHẾ =====================
+
+### Ghế đã đặt của chuyến 1 (đơn mẫu giữ 1A1, 1A2)
+GET http://localhost:8080/api/v1/trips/1/booked-seats
+
+### Chuyến 3 (HCM -> Nha Trang): chưa ai đặt thì danh sách rỗng
+GET http://localhost:8080/api/v1/trips/3/booked-seats
+
+### Lỗi mong đợi 404: chuyến không tồn tại
+GET http://localhost:8080/api/v1/trips/999/booked-seats

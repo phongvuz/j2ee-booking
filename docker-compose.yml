@@ -1,0 +1,20 @@
+services:
+  postgres-db:
+    image: postgres:17-alpine
+    container_name: booking-postgres
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: "${DB_NAME_LOCAL:-booking}"
+      POSTGRES_USER: "${DB_USERNAME_LOCAL:-booking}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD_LOCAL:-booking_local}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - booking_pgdata:/var/lib/postgresql/data
+
+volumes:
+  booking_pgdata:
